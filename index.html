@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -291,4 +292,325 @@
 
     <script src="script.js"></script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jom Malaysia! - マレーシア移住への道</title>
+    <!-- Google Fonts: 親しみやすい丸ゴシック系 -->
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Analytics (タグ設置用のプレースホルダー) -->
+    <!-- <script async src="https://www.googletagmanager.com"></script> -->
+</head>
+<body>
+
+    <!-- ヘッダー：ナビゲーション -->
+    <header>
+        <div class="logo">Jom Malaysia!</div>
+         <!-- スマホ用メニューボタン -->
+         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+         <nav id="main-nav">
+            <ul>
+                <li><a href="#" onclick="showPage('home')">トップ</a></li>
+                <li><a href="#" onclick="showPage('places')">訪れた場所</a></li>
+                <li><a href="#" onclick="showPage('food')">食べた物</a></li>
+                <li><a href="#" onclick="showPage('malay')">今日のマレー語</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="content">
+        <!-- トップページ -->
+        <section id="home" class="page active">
+            <div class="hero">
+              <!-- スライドショーエリア -->
+              <div class="slideshow-container">
+                  <!-- 写真1 (ImgBBの直リンクに差し替えてください) -->
+                  <div class="mySlides fade">
+                      <img src="https://i.ibb.co/0Rm6MZx9/BFB01-D0-B-7-C7-C-40-F0-91-F2-0-AB7-F3204-FF3.jpg" style="width:100%">
+                      <div class="slide-text">Petaling Jaya</div>
+                  </div>
+
+                  <!-- 写真2 -->
+                  <div class="mySlides fade">
+                      <img src="https://i.ibb.co/jkL1nn6w/IMG-4434.jpg" style="width:100%">
+                      <div class="slide-text">Ara Damansara</div>
+                  </div>
+
+                  <!-- 写真3 -->
+                  <div class="mySlides fade">
+                      <img src="https://i.ibb.co/0p93JdTM/IMG-4928.jpg" style="width:100%">
+                      <div class="slide-text">Subang Jaya</div>
+                  </div>
+
+                  <!-- 写真4 -->
+                  <div class="mySlides fade">
+                      <img src="https://i.ibb.co/rDfTVsN/IMG-2554.jpg" style="width:100%">
+                      <div class="slide-text">Petaling Jaya</div>
+                  </div>
+              </div>
+                <h1>Selamat Datang! (ようこそ)</h1>
+                <p>マレーシア移住に興味があるあなたへ、現地のリアルな空気をお届けします。</p>
+
+                <!-- マレーシア時計エリア -->
+                <div class="malaysia-clock">
+                    <span class="clock-label">Current Time in Malaysia</span>
+                    <div id="kl-time">00:00:00</div>
+                    <span id="kl-date">----/--/--</span>
+                </div>
+            </div>
+            <div class="intro-card">
+                <h2>最新の更新</h2>
+                <p>マレーシアの日常を非定期に発信中。現地の雰囲気を知るヒントにしてください。</p>
+            </div>
+        </section>
+
+        <!-- 訪れた場所ページ -->
+        <section id="places" class="page">
+            <div class="section-title">
+                <h2>Visited Places</h2>
+                <p>マレーシア各地の魅力を、地図と一緒にご紹介します。</p>
+            </div>
+
+            <div class="places-grid">
+                <!-- スポット1: Petronas Twin Towers -->
+                <article class="place-card">
+                    <div class="place-image">
+                        <img src="https://i.ibb.co/PSSnLXM/IMG-3589.jpg" alt="Petronas Twin Towers">
+                    </div>
+                    <div class="place-info">
+                        <h3>クアラルンプール：Petronas Twin Towers</h3>
+                        <p>マレーシアの象徴。夜のライトアップは圧巻で、何度見ても飽きません。周辺のKLCC公園での散歩もおすすめ。</p>
+                        <div class="map-embed">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15935.19393138159!2d101.72954032624519!3d3.1478068381909092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc37d12d669c1f%3A0x9e3afdd17c8a9056!2sPetronas%20Twin%20Towers!5e0!3m2!1sen!2sjp!4v1774730690982!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- スポット2: Sultan Salahuddin Abdul Aziz Shah Masjid -->
+                <article class="place-card">
+                    <div class="place-image">
+                        <img src="https://i.ibb.co/jPsk9H7q/IMG-5093.jpg" alt="Blue Mosque">
+                    </div>
+                    <div class="place-info">
+                        <h3>シャーアラム：Sultan Salahuddin Abdul Aziz Shah Masjid</h3>
+                        <p>世界的に有名な美しい青いドーム。内部の静寂と繊細なタイル装飾は、心から感動する美しさです。</p>
+                        <div class="map-embed">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15936.3490436643!2d101.49556380897697!3d3.0713585972588335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc527ec7366823%3A0xd59cd5f00940bc42!2sSultan%20Salahuddin%20Abdul%20Aziz%20Shah%20Masjid!5e0!3m2!1sen!2sjp!4v1774730853366!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- スポット3: The Shore Sky Tower -->
+                <article class="place-card">
+                    <div class="place-image">
+                        <img src="https://i.ibb.co/zW0xjP2w/IMG-3830.jpg" alt="The Shore Sky Tower">
+                    </div>
+                    <div class="place-info">
+                        <h3>マラッカ：The Shore Sky Tower</h3>
+                        <p>マラッカで一番高い場所。床がガラス張りのスカイデッキからは、歴史ある街並みとマラッカ海峡を一望でき、スリルと絶景を同時に楽しめます。</p>
+                        <div class="map-embed">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31894.485479318653!2d102.24174456805726!3d2.2248511053872697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d1ef9420baaaa9%3A0x98bd3f2b5aae1f30!2sThe%20Shore%20Sky%20Tower!5e0!3m2!1sen!2sjp!4v1774736109350!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 食べた物ページ -->
+        <section id="food" class="page">
+            <div class="section-title">
+                <h2>Makan-makan!</h2>
+                <p>実際に訪れたレストランの記録です。移住後の外食の参考にどうぞ！</p>
+            </div>
+
+            <div class="food-grid">
+                <!-- 料理カード1 -->
+                <article class="food-card">
+                    <div class="food-image-container">
+                        <!-- 料理写真 (ImgBB直リンクへ) -->
+                        <img src="https://i.ibb.co/TMYTNw6x/IMG-5087.jpg" class="img-food active" id="food1-main" alt="Food">
+                        <!-- 外観写真 (ImgBB直リンクへ) -->
+                        <img src="https://i.ibb.co/nqt7hwn2/IMG-5094.jpg" class="img-shop" id="food1-shop" alt="Shop">
+                
+                        <span class="price-tag">RM 15.00</span>
+                
+                        <!-- 写真切り替えスイッチ -->
+                        <div class="photo-switcher">
+                            <button onclick="switchPhoto('food1', 'main')" class="active">料理</button>
+                           <button onclick="switchPhoto('food1', 'shop')">外観</button>
+                        </div>
+                    </div>
+
+                    <div class="food-info">
+                        <span class="category">マレー系</span>
+                        <h3>【SS2グルメ】伝統の味をカジュアルに&#33;「Eastern Kopitiam by Kim Eng Kitchen」で楽しむマレーシアの朝食&amp;ランチ</h3>
+                        <p>マレーシアの活気ある街、ペタリンジャのSS2エリア。ここで「懐かしいけれど新しい」と評判なのが、Eastern Kopitiam by Kim Eng Kitchenです。<br>
+                        <br>
+                        1. お店の特徴：ムスリムフレンドリーな現代的コピティアム<br>
+                        このお店の最大の特徴は、伝統的なコピティアムのメニューをムスリムフレンドリーなスタイルで提供している点です。<br>
+                        ・こだわりの自家製ペースト: インスタントは使わず、家庭料理のような安心感のある自家製ペーストを使用しています。<br>
+                        ・モダンな空間: ヴィンテージな装飾と現代的なセンスが融合した、清潔感のある快適な店内で食事が楽しめます。<br>
+                        <br>  
+                        2. 絶対に外せない！おすすめメニュー<br>
+                        朝食からしっかりとしたランチまで、バラエティ豊かなメニューが揃っています。<br>
+                        ・ナシレマ（Nasi Lemak）: ココナッツライスと伝統のサンバルソースが絶妙なバランスです。<br>
+                        ・手打ち麺のカレーミー（Curry Mee）: もちもちの自家製麺と、香り高いカレースープの組み合わせが人気です。<br>
+                        ・カヤバタートースト: 外はカリッと、中はふわふわ。自家製のカヤジャムが添えられています。<br>
+                        ・ソルテッドコーヒー (Salted Coffee): 甘さの中に塩気が効いた、ここでしか味わえない一杯としてファンが多いドリンクです。<br>
+                        <br>                      
+                        SS2で「どこかほっとする、でもおしゃれな場所で美味しいローカルフードを食べたい」と思ったら、ぜひ足を運んでみてください&#33;</p>
+                
+                        <div class="restaurant-info">
+                            <p class="shop-name">📍 Eastern Kopitiam by Kim Eng Kitchen</p>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7967.839549110585!2d101.61229353604612!3d3.1159255131699317!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc491390dc8223%3A0x77d10501b3a2ed29!2sEastern%20Kopitiam%20by%20Kim%20Eng%20Kitchen%20(653971-U)%20Muslim%20Friendly!5e0!3m2!1sen!2sjp!4v1774733256070!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                
+                        <div class="rating">オススメ度：★★★★★</div>
+                    </div>
+                </article>
+
+                <!-- 料理カード2 -->
+                <article class="food-card">
+                    <div class="food-image-container">
+                        <!-- 料理写真 (ImgBB直リンクへ) -->
+                        <img src="https://i.ibb.co/MDCrqh6J/IMG-1501.jpg" class="img-food active" id="food1-main" alt="Food">
+                        <!-- 外観写真 (ImgBB直リンクへ) -->
+                        <img src="https://i.ibb.co/6cxjJp06/IMG-1498.jpg" class="img-shop" id="food1-shop" alt="Shop">
+                
+                        <span class="price-tag">RM 15.00</span>
+                
+                        <!-- 写真切り替えスイッチ -->
+                        <div class="photo-switcher">
+                            <button onclick="switchPhoto('food1', 'main')" class="active">料理</button>
+                           <button onclick="switchPhoto('food1', 'shop')">外観</button>
+                        </div>
+                    </div>
+
+                    <div class="food-info">
+                        <span class="category">マレー系</span>
+                        <h3>【クアンタングルメ】100種類のおかずが圧巻！「Nasi Ulam D'Pondok」で味わうパハン州伝統の味</h3>
+                        <p>マレーシア東海岸の街、クアンタン。ここで「地元の伝統料理を心ゆくまで堪能できる」と絶大な人気を誇るのが、Nasi Ulam D'Pondok（ナシ・ウラム・デ・ポンドック）です。<br>
+                        <br>
+                        1. お店の特徴：圧倒的な品数を誇るマレー伝統のビュッフェ<br>
+                        このお店の最大の特徴は、テーブルから溢れんばかりに並べられたマレー風ビュッフェ（ナシ・チャンプル）のバリエーションです。<br>
+                        ・100種類以上のおかず: 焼き魚、煮込み料理、新鮮な生野菜（ウラム）など、目移りするほど豊富なメニューが毎日並びます。<br>
+                        ・パハンの郷土料理: 地元パハン州ならではの伝統的な味付けを大切にしており、家庭料理のような温かみのある本格的な味が楽しめます。<br>
+                        ・開放的なポンドックスタイル: 店名にある「Pondok（小屋）」のような、風通しの良いリラックスした空間で、ローカルな活気を感じながら食事ができます。<br>
+                        <br>  
+                        2. 絶対に外せない！おすすめメニュー<br>
+                        数あるおかずの中でも、ここに来たら必ず試してほしい看板メニューをご紹介します。<br>
+                        ・イカン・パティン・テンポヤック（Ikan Patin Tempoyak）: パハン州の名物。発酵させたドリアンのソースで川魚を煮込んだ、独特のコクと酸味が癖になる一品です。<br>
+                        ・ナシ・ウラム（Nasi Ulam）: 店名にもなっているハーブライス。細かく刻んだ数種類の新鮮なハーブをご飯に混ぜ込み、爽やかな香りが食欲をそそります。<br>
+                        ・イカン・バカール（Ikan Bakar）: 秘伝のスパイスでマリネし、香ばしく焼き上げた魚。特製のサンバルソースとの相性が抜群です。<br>
+                        ・揚げたての揚げ物（Goreng-goreng）: サクサクのバナナ揚げ（Pisang Goreng）などは、食後のデザートやサイドメニューとして人気です。<br>
+                        <br>                      
+                        クアンタンで「これぞマレーシア東海岸の味！という本場のローカルフードをお腹いっぱい食べたい」と思ったら、迷わずここに足を運んでみてください！</p>
+                
+                        <div class="restaurant-info">
+                            <p class="shop-name">📍 Nasi Ulam D'Pondok</p>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d63694.74386603787!2d103.26281767742445!3d3.8270084405483282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31c8ba90e35d11d5%3A0x9595967a70e77488!2sNasi%20Ulam%20D&#39;Pondok!5e0!3m2!1sen!2sjp!4v1774734875894!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                
+                        <div class="rating">オススメ度：★★★★★</div>
+                    </div>
+                </article>
+
+                <!-- 料理カード3 -->
+                <article class="food-card">
+                    <div class="food-image-container">
+                        <!-- 料理写真 (ImgBB直リンクへ) -->
+                        <img src="https://i.ibb.co/b5nqGrct/IMG-0573.jpg" class="img-food active" id="food1-main" alt="Food">
+                        <!-- 外観写真 (ImgBB直リンクへ) -->
+                        <img src="https://i.ibb.co/fKNWd89/IMG-0570.jpg" class="img-shop" id="food1-shop" alt="Shop">
+                
+                        <span class="price-tag">RM 15.00</span>
+                
+                        <!-- 写真切り替えスイッチ -->
+                        <div class="photo-switcher">
+                            <button onclick="switchPhoto('food1', 'main')" class="active">料理</button>
+                           <button onclick="switchPhoto('food1', 'shop')">外観</button>
+                        </div>
+                    </div>
+
+                    <div class="food-info">
+                        <span class="category">マレー系</span>
+                        <h3>【ペナングルメ】伝統の味をカジュアルに！「7 Road Kitchen（七条路キッチン）」で楽しむマレーシアの朝食＆ランチ</h3>
+                        <p>マレーシア屈指のグルメタウン、ペナン・ジョージタウン。ここで「伝統の味を清潔な環境で楽しめる」と評判なのが、7 Road Kitchen（七条路キッチン）です。<br>
+                        <br>
+                        1. お店の特徴：伝統的なホーカーの味をモダンで快適な空間で<br>
+                        このお店の最大の特徴は、ペナン伝統のストリートフードを、エアコンの効いた清潔感のあるモダンな店舗スタイルで提供している点です。<br>
+                        ・受け継がれる秘伝の味: 長年愛されてきたローカルレシピを大切にし、化学調味料に頼りすぎない安心感のある味を追求しています。<br>
+                        ・旅行者にも優しい空間: 屋台（ホーカー）の良さはそのままに、家族連れや観光客でも入りやすい、明るく衛生的でモダンな店内で食事が楽しめます。<br>
+                        ・こだわりの自家製素材: 麺やソースなど、可能な限り自家製にこだわり、素材の旨味を活かした料理が自慢です。<br>
+                        <br>  
+                        2. 絶対に外せない！おすすめメニュー<br>
+                        ペナンならではの濃厚な味わいから、定番の朝食までバラエティ豊かです。<br>
+                        ・ペナン・ホワイトカレーミー（White Curry Mee）: ココナッツミルクのまろやかさと、別添えの特製サンバルを溶かして自分好みの辛さに調節できる、ペナンを代表する一杯です。<br>
+                        ・ナシレマ（Nasi Lemak）: 香り高いココナッツライスに、じっくりと旨味を引き出したサンバルソースが絶妙なバランスです。<br>
+                        ・カヤバタートースト: 外はサクッと、中はしっとり。自家製の香り高いカヤジャムと冷たいバターの組み合わせは、コーヒーとの相性が抜群です。<br>
+                        ・特製ホワイトコーヒー (White Coffee): ペナンらしい濃厚でクリーミーな味わいのコーヒーは、ファンが多い定番ドリンクです。<br>
+                        <br>                      
+                        ペナン・ジョージタウンで「ローカルの味に挑戦したいけれど、きれいで落ち着いた場所で食べたい」と思ったら、ぜひ足を運んでみてください！</p>
+                
+                        <div class="restaurant-info">
+                            <p class="shop-name">📍 7 Road Kitchen</p>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.068780721749!2d100.32677607646968!3d5.406494335131891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304ac3003a01bf79%3A0x4a57830134141238!2s7%20Road%20Kitchen!5e0!3m2!1sen!2sjp!4v1774735678093!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                
+                        <div class="rating">オススメ度：★★★★★</div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- マレー語ページ内の修正箇所 -->
+        <div class="phrase-card">
+            <div class="phrase-header">
+                <span class="pronunciation"></span> <!-- JSで注入 -->
+                <h2 id="today-phrase"></h2> <!-- JSで注入 -->
+                <p class="meaning"></p> <!-- JSで注入 -->
+            </div>
+
+            <div class="nuance-box">
+                <h4>【ニュアンス解説】</h4>
+                <p class="nuance-text"></p> <!-- JSで注入 -->
+            </div>
+
+            <div class="example-box">
+                <h4>【例文】</h4>
+                <div id="example-list"></div> <!-- JSで注入 -->
+            </div>  
+        
+            <div class="tips">
+                <p>💡 <strong>ワンポイントアドバイス</strong><br>
+                <span class="tips-text"></span></p> <!-- JSで注入 -->
+            </div>
+
+            <button class="btn" onclick="toggleArchive()">過去のフレーズ一覧へ</button>
+        </div>
+    
+    <div id="archive" class="hidden">
+        <h3>過去のフレーズ一覧</h3>
+        <ul id="phrase-list"></ul>
+    </div>
+</section>
+    </main>
+
+    <!-- フッター：SNS連携 -->
+    <footer>
+        <div class="sns-links">
+            <p>Share on:</p>
+            <a href="https://twitter.com" class="sns-btn x-btn" target="_blank">X (Twitter)</a>
+            <a href="https://www.instagram.com" class="sns-btn ig-btn" target="_blank">Instagram</a>
+        </div>
+        <p>&copy; 2024 Jom Malaysia! - Live in the Tropics</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+>>>>>>> 3266705 (ブログ作成)
 </html>

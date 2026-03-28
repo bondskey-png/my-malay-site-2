@@ -1,3 +1,4 @@
+
 /**
  * ページ切り替え機能
  * @param {string} pageId - 表示したいセクションのID
@@ -234,6 +235,7 @@ window.onload = () => {
     updateDailyPhrase();
 };
 
+
 const pastPhrases = [
     { 
         word: "Selamat pagi.", 
@@ -287,4 +289,5 @@ function initGA() {
 }
 
 // ページ読み込み時に実行
+
 window.onload = initGA;
