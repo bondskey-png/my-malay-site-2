@@ -33,30 +33,33 @@
             <div class="hero">
               <!-- スライドショーエリア -->
               <div class="slideshow-container">
+                <div class="slides-wrapper" id="slides-wrapper">
                   <!-- 写真1 (ImgBBの直リンクに差し替えてください) -->
-                  <div class="mySlides fade">
+                  <div class="slide-item">
                       <img src="https://i.ibb.co/0Rm6MZx9/BFB01-D0-B-7-C7-C-40-F0-91-F2-0-AB7-F3204-FF3.jpg" style="width:100%">
                       <div class="slide-text">Petaling Jaya</div>
                   </div>
 
                   <!-- 写真2 -->
-                  <div class="mySlides fade">
+                  <div class="slide-item">
                       <img src="https://i.ibb.co/jkL1nn6w/IMG-4434.jpg" style="width:100%">
                       <div class="slide-text">Ara Damansara</div>
                   </div>
 
                   <!-- 写真3 -->
-                  <div class="mySlides fade">
+                  <div class="slide-item">
                       <img src="https://i.ibb.co/0p93JdTM/IMG-4928.jpg" style="width:100%">
                       <div class="slide-text">Subang Jaya</div>
                   </div>
 
                   <!-- 写真4 -->
-                  <div class="mySlides fade">
+                  <div class="slide-item">
                       <img src="https://i.ibb.co/rDfTVsN/IMG-2554.jpg" style="width:100%">
                       <div class="slide-text">Petaling Jaya</div>
                   </div>
               </div>
+            </div>
+
                 <h1>Selamat Datang! (ようこそ)</h1>
                 <p>マレーシア移住に興味があるあなたへ、現地のリアルな空気をお届けします。</p>
 
@@ -271,9 +274,11 @@
                 </article>
             </div>
         </section>
+        
+        <section id="malay" class="page">
+          <!-- マレー語ページ内の修正箇所 -->
+          <div class="phrase-card">
 
-        <!-- マレー語ページ内の修正箇所 -->
-        <div class="phrase-card">
             <div class="phrase-header">
                 <span class="pronunciation"></span> <!-- JSで注入 -->
                 <h2 id="today-phrase"></h2> <!-- JSで注入 -->
@@ -296,14 +301,17 @@
             </div>
 
             <button class="btn" onclick="toggleArchive()">過去のフレーズ一覧へ</button>
-        </div>
+          </div>
     
-    <div id="archive" class="hidden">
-        <h3>過去のフレーズ一覧</h3>
-        <ul id="phrase-list"></ul>
-    </div>
+          <div id="archive" class="hidden">
+              <h3>過去のフレーズ一覧</h3>
+              <ul id="phrase-list"></ul>
+          </div>
+   </section>
+
 </section>
-    </main>
+   
+</main>
 
     <!-- フッター：SNS連携 -->
     <footer>
@@ -317,5 +325,5 @@
 
     <script src="script.js"></script>
 </body>
->>>>>>> 3266705 (ブログ作成)
+
 </html>

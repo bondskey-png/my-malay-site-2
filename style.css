@@ -1,4 +1,3 @@
-
 /* 基本設定：マレーシアをイメージした明るく温かいカラー */
 :root {
     --primary-yellow: #FFCD00; /* マレーシア国旗の月と星 */
@@ -57,416 +56,18 @@ nav a:hover {
 }
 
 /* コンテンツ表示の制御 */
+/* すべてのページセクションを中央に寄せる */
 .page {
-    display: none; /* 初期状態は非表示 */
+    display: none; 
     padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    animation: fadeIn 0.5s ease; /* ページ切替時のアニメーション */
+    max-width: 900px;  /* コンテンツの最大幅を少し広めに設定 */
+    margin-left: auto;  /* ◀ 左の余白を自動計算 */
+    margin-right: auto; /* ◀ 右の余白を自動計算 */
+    animation: fadeIn 0.5s ease;
 }
 
 .page.active {
-    display: block; /* activeクラスがついたものだけ表示 */
-}
-
-/* --- スマホ・タブレット用スタイル (Media Queries) --- */
-
-@media (max-width: 768px) {
-    header {
-        flex-wrap: wrap;
-        padding: 0.8rem 1rem;
-    }
-
-    .menu-toggle {
-        display: block; /* スマホのみ表示 */
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--deep-blue);
-        cursor: pointer;
-    }
-
-    nav {
-        display: none; /* 初期状態は隠す */
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    nav.active {
-        display: block; /* ボタン押下で表示 */
-    }
-
-    nav ul {
-        flex-direction: column;
-        gap: 10px;
-        background: #fff;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    .hero h1 {
-        font-size: 1.5rem;
-    }
-
-    .page {
-        padding: 1rem; /* 余白を狭くしてコンテンツを広く */
-    }
-
-    .places-grid, .food-grid {
-        grid-template-columns: 1fr; /* スマホでは1列にする */
-    }
-
-    #kl-time {
-        font-size: 2rem;
-    }
-}
-
-/* PC用：メニューボタンを隠す */
-@media (min-width: 769px) {
-    .menu-toggle {
-        display: none;
-    }
-    nav {
-        display: block !important;
-    }
-}
-
-/* ヒーローセクション（トップページ） */
-.hero {
-    text-align: center;
-    padding: 3rem 1rem;
-    background: linear-gradient(135deg, var(--primary-yellow), #ffe574);
-    border-radius: 20px;
-    margin-bottom: 2rem;
-}
-
-/* カード型レイアウト（場所・食事） */
-.card {
-    background: white;
-    border-radius: 15px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    border-left: 5px solid var(--tropical-green);
-}
-
-/* 今日のマレー語セクション */
-.phrase-box {
-    background-color: white;
-    padding: 2rem;
-    text-align: center;
-    border-radius: 15px;
-    border: 3px dashed var(--primary-yellow);
-}
-
-.phrase-box h3 {
-    font-size: 2rem;
-    color: var(--deep-blue);
-    margin-bottom: 0.5rem;
-}
-
-.hidden {
-    display: none;
-}
-
-/* ボタンの共通スタイル */
-.btn {
-    background-color: var(--deep-blue);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    margin-top: 1rem;
-}
-
-.btn:hover {
-    opacity: 0.8;
-}
-
-/* フッターとSNS */
-footer {
-    text-align: center;
-    padding: 2rem;
-    background-color: #eee;
-    margin-top: 3rem;
-}
-
-.sns-btn {
-    display: inline-block;
-    padding: 5px 15px;
-    margin: 0 5px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: white;
-    font-size: 0.9rem;
-}
-
-.x-btn { background-color: #000; }
-.ig-btn { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-
-/* フェードインアニメーション */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* マレー語詳細の装飾 */
-.phrase-card {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-}
-
-.pronunciation {
-    color: var(--accent-red);
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-.meaning {
-    font-size: 1.2rem;
-    background: var(--primary-yellow);
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 5px;
-}
-
-.nuance-box, .example-box, .tips {
-    margin-top: 1.5rem;
-    text-align: left;
-    border-top: 1px solid #eee;
-    padding-top: 1rem;
-}
-
-.chat {
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 5px;
-    font-size: 0.95rem;
-}
-
-.chat span {
-    font-weight: bold;
-    color: var(--deep-blue);
-}
-
-.tips {
-    background: #fff9e6;
-    padding: 1rem;
-    border-radius: 10px;
-    border: 1px solid var(--primary-yellow);
-}
-
-/* マレーシア時計のスタイル */
-.malaysia-clock {
-    background: rgba(0, 48, 135, 0.1); /* 深紺色を薄く */
-    border: 2px solid var(--deep-blue);
-    display: inline-block;
-    padding: 15px 30px;
-    border-radius: 50px;
-    margin-top: 20px;
-    backdrop-filter: blur(5px);
-}
-
-.clock-label {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--deep-blue);
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-#kl-time {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: var(--accent-red);
-    font-family: 'Courier New', Courier, monospace; /* デジタル時計風 */
-    line-height: 1;
-}
-
-#kl-date {
-    font-size: 0.9rem;
-    color: var(--text-color);
-}
-
-/* 場所ページのレイアウト */
-.section-title {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.places-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 幅300px以上で自動配置 */
-    gap: 2rem;
-    padding: 10px;
-}
-
-.place-card {
-    background: white;
-    border-radius: 20px;
-    overflow: hidden; /* 角丸からはみ出る画像やマップをカット */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease;
-}
-
-.place-card:hover {
-    transform: translateY(-5px); /* ホバー時にふわっと浮く */
-}
-
-.place-image img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover; /* 画像を比率維持で切り抜き */
-    display: block;
-}
-
-.place-info {
-    padding: 1.5rem;
-}
-
-.place-info h3 {
-    margin-top: 0;
-    color: var(--deep-blue);
-    font-size: 1.2rem;
-}
-
-.place-info p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 1rem;
-}
-
-.map-embed {
-    border-radius: 10px;
-    overflow: hidden;
-    background: #eee;
-}
-
-/* 写真コンテナ */
-.food-image-container {
-    position: relative;
-    height: 200px;
-    background: #eee;
-}
-
-.food-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-/* 表示中の写真 */
-.food-image-container img.active {
-    opacity: 1;
-}
-
-/* 切り替えボタン */
-.photo-switcher {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    gap: 5px;
-    z-index: 10;
-}
-
-.photo-switcher button {
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.photo-switcher button.active {
-    background: var(--accent-red);
-}
-
-.photo-switcher button:hover {
-    background: var(--deep-blue);
-}
-
-/* 基本設定：マレーシアをイメージした明るく温かいカラー */
-:root {
-    --primary-yellow: #FFCD00; /* マレーシア国旗の月と星 */
-    --accent-red: #D1102D;    /* 情熱的な赤 */
-    --deep-blue: #003087;      /* 誠実な紺色 */
-    --tropical-green: #00A651; /* 豊かな自然 */
-    --bg-cream: #FFFDF5;       /* 柔らかい背景色 */
-    --text-color: #333;
-}
-
-body {
-    font-family: 'Zen Maru Gothic', sans-serif;
-    background-color: var(--bg-cream);
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
-
-/* ヘッダーのスタイル */
-header {
-    background-color: var(--primary-yellow);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--deep-blue);
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
-}
-
-nav a {
-    text-decoration: none;
-    color: var(--text-color);
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: var(--accent-red);
-}
-
-/* コンテンツ表示の制御 */
-.page {
-    display: none; /* 初期状態は非表示 */
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-    animation: fadeIn 0.5s ease; /* ページ切替時のアニメーション */
-}
-
-.page.active {
-    display: block; /* activeクラスがついたものだけ表示 */
+    display: block; 
 }
 
 /* --- スマホ・タブレット用スタイル (Media Queries) --- */
@@ -542,47 +143,61 @@ nav a:hover {
 }
 
 /* スライドショーのコンテナ */
+/* スライドを包む外枠 */
 .slideshow-container {
-    max-width: 1000px;
+    width: 100%;
+    overflow: hidden; /* はみ出た分を隠す */
     position: relative;
-    margin: 20px auto;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    padding: 40px 0;
 }
 
-/* スライド画像（初期は非表示） */
-.mySlides {
-    display: none;
+.slides-wrapper {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    /* transitionはJS側で制御するので、ここでは初期値のみ */
+    will-change: transform;
 }
 
-.mySlides img {
-    height: 400px; /* PCでの高さ */
+.slide-item {
+    width: 70vw; 
+    flex-shrink: 0;
+    margin: 0 15px;
+    opacity: 0.3;
+    transform: scale(0.85);
+    transition: opacity 0.8s ease, transform 0.8s ease; /* 透明度と拡大だけCSSで制御 */
+}
+
+.slide-item.center {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.slide-item img {
+    width: 100%;
+    height: 400px;
     object-fit: cover;
-    vertical-align: middle;
+    border-radius: 20px;
+    display: block; /* 余計な隙間を消す */
 }
 
-/* スライド上のテキスト */
 .slide-text {
-    color: #f2f2f2;
-    font-size: 15px;
-    padding: 8px 12px;
     position: absolute;
     bottom: 20px;
-    width: 100%;
-    text-align: center;
-    background: rgba(0,0,0,0.4);
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: 0.5s;
 }
 
-/* フェードアニメーション */
-.fade {
-    animation-name: fade;
-    animation-duration: 1.5s;
-}
 
-@keyframes fade {
-    from {opacity: .4} 
-    to {opacity: 1}
+@media (max-width: 768px) {
+    .slide-item { min-width: 85%; }
+    .slide-item img { height: 250px; }
 }
 
 /* スマホ用の高さ調整 */
@@ -666,9 +281,12 @@ footer {
 /* マレー語詳細の装飾 */
 .phrase-card {
     background: #fff;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    padding: 3rem; /* 内側の余白をたっぷり取る */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    max-width: 700px; /* カードが広がりすぎないように制限 */
+    margin: 0 auto;   /* カード自体を中央寄せ */
+    text-align: center; /* 基本は中央揃え */
 }
 
 .pronunciation {
@@ -745,9 +363,11 @@ footer {
 }
 
 /* 場所ページのレイアウト */
+/* タイトルなども中央揃えにする */
 .section-title {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+    width: 100%;
 }
 
 .places-grid {
@@ -849,4 +469,39 @@ footer {
 .photo-switcher button:hover {
     background: var(--deep-blue);
 
+}
+
+/* 過去のフレーズ一覧の枠も中央に寄せる */
+#archive {
+    max-width: 700px;   /* リストが広がりすぎないように制限 */
+    margin: 2rem auto;  /* 上下に2rem、左右は中央寄せ */
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+/* リスト内の文字が左端に当たらないようにパディングを追加 */
+#phrase-list {
+    padding-left: 1.5rem; /* 左側にしっかり余白を作る */
+    padding-right: 1.5rem;
+}
+
+/* 各リスト項目 */
+#phrase-list li {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s;
+}
+
+/* リンクをクリックしやすく、少し内側に寄せる */
+#phrase-list li a {
+    display: block;
+    padding-left: 5px; 
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+#phrase-list li:hover {
+    background-color: #fffde7; /* ホバー時に少し色を変えて反応を出す */
 }

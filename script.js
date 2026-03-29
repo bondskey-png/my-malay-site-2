@@ -42,45 +42,53 @@ showPage = function(pageId) {
     document.getElementById(pageId).classList.add('active');
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-    // 既存の関数たち
-    if (typeof updateDailyPhrase === 'function') updateDailyPhrase();
-    if (typeof updateMalaysiaClock === 'function') updateMalaysiaClock();
     
-    // スライドショーを開始
-    showSlides(); 
-});
-
+// --- スライドショー制御 ---
 let slideIndex = 0;
+let slideTimer; // タイマーを管理する変数
 
-/**
- * スライドショーを自動再生する関数
- */
 function showSlides() {
-    let i;
-    let slides = document.getElementsByClassName("mySlides");
-    
-    // 全てのスライドを一旦非表示にする
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";  
+    // 既存の予約があればクリアする（二重起動を防止）
+    clearTimeout(slideTimer);
+
+    const wrapper = document.getElementById('slides-wrapper');
+    const slides = document.querySelectorAll('.slide-item');
+    const container = document.querySelector('.slideshow-container');
+
+    if (!wrapper || slides.length === 0 || !container) return;
+
+    // --- 計算と移動 ---
+    const containerWidth = container.offsetWidth;
+    // 最初のスライドの幅を基準にする
+    const slideWidth = slides[0].offsetWidth + 30; 
+
+    const offset = (containerWidth / 2) - (slideWidth / 2) - (slideIndex * slideWidth);
+
+    wrapper.style.transition = "transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)";
+    wrapper.style.transform = `translateX(${offset}px)`;
+
+    // 強調表示の切り替え
+    slides.forEach(s => s.classList.remove('center'));
+    if (slides[slideIndex]) {
+        slides[slideIndex].classList.add('center');
     }
-    
+
+    // 次の番号へ
     slideIndex++;
-    if (slideIndex > slides.length) {slideIndex = 1}    
-    
-    // 現在のスライドを表示
-    if (slides[slideIndex-1]) {
-        slides[slideIndex-1].style.display = "block";  
+    if (slideIndex >= slides.length) {
+        slideIndex = 0;
     }
-    
-    setTimeout(showSlides, 4000); // 4秒ごとに切り替え
+
+    // 4秒後に「一度だけ」実行するように予約
+    slideTimer = setTimeout(showSlides, 4000);
 }
 
-// 初期化時に実行するように window.onload に追加
-window.addEventListener('DOMContentLoaded', () => {
-    updateDailyPhrase();
-    updateMalaysiaClock();
-    showSlides(); // スライドショー開始
+// ページ読み込み完了時の処理
+window.addEventListener('load', () => {
+    // 他の初期化処理（時計など）があればここに書く
+    
+    // スライドショーを開始
+    showSlides();
 });
 
 /**
@@ -186,28 +194,59 @@ const dailyPhrases = {
         tips: "マレーシアでは時間帯によって挨拶が以下のように変わります：<br>・Selamat tengah hari: 正午（12時〜14時頃）<br>・Selamat petang: 午後から夕方（14時〜日没頃）<br>・Selamat malam: 夜（おやすみなさい、または夜の挨拶）"
     },
 
+    "2026-03-30": {
+        phrase: "Bagaimana khabar?",
+        katakana: "《バガイマナ カバール》",
+        meaning: "ご機嫌いかがですか？ / 調子はどうですか？",
+        nuance: "相手の健康状態や近況を尋ねる際に使われる丁寧な表現です。<br> 一般的に使われる Apa khabar?（お元気ですか？）と似ていますが、Bagaimana（どのように）を使うことで、より具体的に「最近の調子はどうですか？」と相手の状況を気遣うニュアンスが含まれます。<br> ビジネスシーンや、少し久しぶりに会った知人に対して使うと、より関心を持っている印象を与えることができます。",
+        examples: [
+            {
+                title: "1. 久しぶりに会った友人",
+                a: "Helo, lama tidak jumpa! Bagaimana khabar anda sekarang?<br><small>（やあ、久しぶり！最近の調子はどうだい？）</small>",
+                b: "Khabar baik. Saya sangat sibuk dengan kerja baru saya.<br><small>（元気だよ。新しい仕事でとても忙しくしているんだ。）</small>"
+            },
+            {
+                title: "2. ビジネスの打ち合わせで",
+                a: "Selamat pagi, Encik Rozak. Bagaimana khabar projek kita di Melaka?<br><small>（おはようございます、ロザックさん。マラッカのプロジェクトの進捗はいかがですか？）</small>",
+                b: "Semuanya berjalan lancar seperti yang dirancang.<br><small>（すべて計画通り順調に進んでいます。）</small>"
+            }
+        ],
+        tips: "日常会話では短く Apa khabar?と言うのが最も一般的ですが、相手の近況をより深く知りたいときには Bagaimana khabar...? の後に特定のトピック（仕事や家族など）を続けて使うのが効果的です。"
+    },
+
 };
 
 /**
  * 2. フレーズを表示する関数
  */
-function updateDailyPhrase() {
-    // 今日の日付を取得 (例: "2024-03-29")
-    const now = new Date();
-    const today = now.getFullYear() + '-' + 
-                  String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-                  String(now.getDate()).padStart(2, '0');
+/**
+ * マレー語フレーズを表示する（引数があればその日を、なければ今日を表示）
+ * @param {string} targetDate - "YYYY-MM-DD" 形式の日付（省略可）
+ */
+function updateDailyPhrase(targetDate = null) {
+    let today;
+    
+    if (targetDate) {
+        // 引数があればそれを使う
+        today = targetDate;
+    } else {
+        // 引数がなければ今日の日付を計算
+        const now = new Date();
+        today = now.getFullYear() + '-' + 
+                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(now.getDate()).padStart(2, '0');
+    }
 
     let data = dailyPhrases[today];
 
-    // もし今日の日付のデータがなければ、登録されている「最新のデータ」を表示する
-    if (!data) {
+    // もし指定された日付のデータがない（かつ引数なしの時）は最新を表示
+    if (!data && !targetDate) {
         const dates = Object.keys(dailyPhrases).sort().reverse();
-        data = dailyPhrases[dates[0]]; // 一番新しい日付のデータ
+        data = dailyPhrases[dates[0]];
     }
 
     if (data) {
-        // 各要素に流し込み（nullチェック付き）
+        // 各要素への流し込み（既存の処理）
         const phraseEl = document.getElementById('today-phrase');
         const kanaEl = document.querySelector('.pronunciation');
         const meaningEl = document.querySelector('.meaning');
@@ -233,6 +272,13 @@ function updateDailyPhrase() {
                 `;
                 exampleContainer.appendChild(div);
             });
+        }
+        
+        // 過去のリンクから飛んできた場合は、ページを「マレー語」に切り替える
+        if (targetDate) {
+            showPage('malay');
+            // アーカイブ一覧は閉じる
+            document.getElementById('archive').classList.add('hidden');
         }
     }
 }
@@ -276,58 +322,84 @@ window.onload = () => {
 };
 
 
-const pastPhrases = [
-    { 
-        word: "Selamat pagi.", 
-        meaning: "おはようございます。",
-        katakana: "スラマッ パギ"
-    },
-    { 
-        word: "Terima Kasih", 
-        meaning: "ありがとう",
-        katakana: "トゥリマ カシ"
+/**
+ * 過去のフレーズ一覧（アーカイブ）のリンク生成
+ */
+function toggleArchive() {
+    const archive = document.getElementById('archive');
+    archive.classList.toggle('hidden');
+    
+    if (!archive.classList.contains('hidden')) {
+        const list = document.getElementById('phrase-list');
+        list.innerHTML = ""; 
+        
+        // 日付の降順で並べる
+        Object.keys(dailyPhrases).sort().reverse().forEach(date => {
+            const item = dailyPhrases[date];
+            const li = document.createElement('li');
+            li.style.padding = "10px 0";
+            li.style.borderBottom = "1px solid #eee";
+            // 💡 クリックするとそのフレーズを表示するリンクにする
+            li.innerHTML = `
+                <a href="#${date}" onclick="displaySpecificPhrase('${date}'); return false;" style="text-decoration:none; color:inherit;">
+                    <strong>${date}</strong>: ${item.phrase} <br>
+                    <small style="color:var(--accent-red)">詳細を見る →</small>
+                </a>`;
+            list.appendChild(li);
+        });
     }
-];
-
-// リスト表示関数を少し修正（カタカナも表示するように）
-function renderPhraseList() {
-    const list = document.getElementById('phrase-list');
-    list.innerHTML = ""; 
-
-    pastPhrases.forEach(item => {
-        const li = document.createElement('li');
-        li.style.padding = "10px 0";
-        li.style.borderBottom = "1px solid #eee";
-        li.innerHTML = `<strong>${item.word}</strong><br><small>${item.katakana}</small> — ${item.meaning}`;
-        list.appendChild(li);
-    });
 }
 
 /**
- * 過去のフレーズをリストとして表示する
+ * ページ読み込み時の自動処理
  */
-function renderPhraseList() {
-    const list = document.getElementById('phrase-list');
-    list.innerHTML = ""; // リストを一旦空にする
+window.addEventListener('DOMContentLoaded', () => {
+    updateMalaysiaClock();
+    showSlides();
 
-    pastPhrases.forEach(item => {
-        const li = document.createElement('li');
-        li.style.marginBottom = "10px";
-        li.innerHTML = `<strong>${item.word}</strong> - ${item.meaning}`;
-        list.appendChild(li);
-    });
-}
+    // URLにハッシュ（#2024-03-30 など）があればそれを表示、なければ今日分を表示
+    const hash = window.location.hash.replace('#', '');
+    if (dailyPhrases[hash]) {
+        displaySpecificPhrase(hash);
+    } else {
+        updateDailyPhrase();
+    }
+});
 
+/**
+ * ページ読み込み時の初期化処理を一つにまとめます
+ */
+window.addEventListener('DOMContentLoaded', () => {
+    // 1. 今日のマレー語フレーズを更新
+    if (typeof updateDailyPhrase === 'function') {
+        updateDailyPhrase();
+    }
+    
+    // 2. マレーシア時計の開始
+    if (typeof updateMalaysiaClock === 'function') {
+        updateMalaysiaClock();
+        // 1秒ごとに時計を更新
+        setInterval(updateMalaysiaClock, 1000);
+    }
+    
+    // 3. スライドショーの開始
+    // 0.5秒待ってから動かすことで、画像の幅計算を安定させます
+    setTimeout(() => {
+        if (typeof showSlides === 'function') {
+            showSlides();
+        }
+    }, 500);
 
+    // 4. Google Analytics の初期化 (エラー回避のため関数があるか確認)
+    if (typeof initGA === 'function') {
+        initGA();
+    }
+});
 
-// 初期化：Google Analytics の設定用関数（本番時にIDを入れれば機能します）
+/**
+ * Google Analytics 初期化用 (必要に応じて中身を記述)
+ */
 function initGA() {
-    // window.dataLayer = window.dataLayer || [];
-    // function gtag(){dataLayer.push(arguments);}
-    // gtag('js', new Date());
-    // gtag('config', 'G-XXXXXXXXXX');
+    console.log("Google Analytics initialized.");
+    // ここに GA のタグ設置コードを記述できます
 }
-
-// ページ読み込み時に実行
-
-window.onload = initGA;
