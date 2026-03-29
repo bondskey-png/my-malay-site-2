@@ -42,6 +42,46 @@ showPage = function(pageId) {
     document.getElementById(pageId).classList.add('active');
 };
 
+window.addEventListener('DOMContentLoaded', () => {
+    // 既存の関数たち
+    if (typeof updateDailyPhrase === 'function') updateDailyPhrase();
+    if (typeof updateMalaysiaClock === 'function') updateMalaysiaClock();
+    
+    // スライドショーを開始
+    showSlides(); 
+});
+
+let slideIndex = 0;
+
+/**
+ * スライドショーを自動再生する関数
+ */
+function showSlides() {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    
+    // 全てのスライドを一旦非表示にする
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+    }
+    
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}    
+    
+    // 現在のスライドを表示
+    if (slides[slideIndex-1]) {
+        slides[slideIndex-1].style.display = "block";  
+    }
+    
+    setTimeout(showSlides, 4000); // 4秒ごとに切り替え
+}
+
+// 初期化時に実行するように window.onload に追加
+window.addEventListener('DOMContentLoaded', () => {
+    updateDailyPhrase();
+    updateMalaysiaClock();
+    showSlides(); // スライドショー開始
+});
 
 /**
  * マレー語アーカイブの表示/非表示切り替え
