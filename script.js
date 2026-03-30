@@ -172,10 +172,9 @@ function switchPhoto(cardId, type) {
 /**
  * 1. 毎日のマレー語データ管理
 // --- 1. 設定（一番上） ---
-const SHEET_ID = '1eGmjiAs4s1MXkCshg537MR1Vdjv232a5A10Jo9tlhUM'; 
-const TAB_NAME = 'phrase'; 
-
-let dailyPhrases = {}; // 必ず最初に定義
+let dailyPhrases = {}; 
+const SHEET_ID = '1eGmjiAs4s1MXkCshg537MR1Vdjv232a5A10Jo9tlhUM';
+const TAB_NAME = 'phrase';
 
 // --- 2. データ取得関数 ---
 async function loadSpreadsheetData() {
@@ -185,7 +184,6 @@ async function loadSpreadsheetData() {
         const text = await response.text();
         const json = JSON.parse(text.substr(47).slice(0, -2));
         const rows = json.table.rows;
-
         const newData = {};
         rows.forEach(row => {
             const c = row.c;
@@ -213,8 +211,9 @@ async function loadSpreadsheetData() {
             };
         });
         dailyPhrases = newData;
+        console.log("Data loaded!");
     } catch (e) {
-        console.error("Fetch error:", e);
+        console.error("Load error:", e);
     }
 }
 
@@ -336,17 +335,13 @@ function toggleArchive() {
  * ページ読み込み時の自動処理（修正版）
  */
 window.addEventListener('DOMContentLoaded', async () => {
-    // 1. まずスプレッドシートからデータを取得し、読み込み完了を待つ
-    await loadSpreadsheetData();
+    // ここで loadSpreadsheetData を呼ぶ
+    await loadSpreadsheetData(); 
 
-    // 2. データの読み込みが終わった後に、時計やスライドを動かす
-    if (typeof updateMalaysiaClock === 'function') updateMalaysiaClock();
-    if (typeof showSlides === 'function') showSlides();
-
-    // 3. URLにハッシュ（#2026-03-30 など）があればそれを表示、なければ今日分を表示
+    // その後に表示
     const hash = window.location.hash.replace('#', '');
     if (dailyPhrases && dailyPhrases[hash]) {
-        displaySpecificPhrase(hash);
+        updateDailyPhrase(hash);
     } else {
         updateDailyPhrase();
     }
