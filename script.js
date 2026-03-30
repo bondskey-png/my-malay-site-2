@@ -384,4 +384,5 @@ window.addEventListener('DOMContentLoaded', () => {
 function initGA() {
     console.log("Google Analytics initialized.");
     // ここに GA のタグ設置コードを記述できます
+    
 }
