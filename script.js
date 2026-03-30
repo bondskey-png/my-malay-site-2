@@ -141,7 +141,7 @@ setInterval(updateMalaysiaClock, 1000);
 
 // 既存の window.onload または DOMContentLoaded 内で初回実行
 window.addEventListener('DOMContentLoaded', () => {
-    updateDailyPhrase();
+    
     updateMalaysiaClock(); // 時計を即座に表示
 });
 
@@ -333,15 +333,19 @@ function toggleArchive() {
 }
 
 /**
- * ページ読み込み時の自動処理
+ * ページ読み込み時の自動処理（修正版）
  */
-window.addEventListener('DOMContentLoaded', () => {
-    updateMalaysiaClock();
-    showSlides();
+window.addEventListener('DOMContentLoaded', async () => {
+    // 1. まずスプレッドシートからデータを取得し、読み込み完了を待つ
+    await loadSpreadsheetData();
 
-    // URLにハッシュ（#2024-03-30 など）があればそれを表示、なければ今日分を表示
+    // 2. データの読み込みが終わった後に、時計やスライドを動かす
+    if (typeof updateMalaysiaClock === 'function') updateMalaysiaClock();
+    if (typeof showSlides === 'function') showSlides();
+
+    // 3. URLにハッシュ（#2026-03-30 など）があればそれを表示、なければ今日分を表示
     const hash = window.location.hash.replace('#', '');
-    if (dailyPhrases[hash]) {
+    if (dailyPhrases && dailyPhrases[hash]) {
         displaySpecificPhrase(hash);
     } else {
         updateDailyPhrase();
