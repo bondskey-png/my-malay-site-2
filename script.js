@@ -305,27 +305,37 @@ window.scrollTo({ top: 0, behavior: 'smooth' });
 
 
 /**
- * 過去のフレーズ一覧（アーカイブ）のリンク生成
+ * 4. アーカイブ表示（今日以前のデータのみに制限）
  */
 function toggleArchive() {
     const archive = document.getElementById('archive');
+    if (!archive) return;
+    
     archive.classList.toggle('hidden');
     
     if (!archive.classList.contains('hidden')) {
         const list = document.getElementById('phrase-list');
         list.innerHTML = ""; 
         
-        // 日付の降順で並べる
+        // 今日の日付を取得 (YYYY-MM-DD形式)
+        const now = new Date();
+        const todayStr = now.getFullYear() + '-' + 
+                         String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                         String(now.getDate()).padStart(2, '0');
+
+        // 日付の降順（新しい順）で並べる
         Object.keys(dailyPhrases).sort().reverse().forEach(date => {
+            // 💡 ここが重要：データの日付が「今日」より未来なら表示しない
+            if (date > todayStr) return; 
+
             const item = dailyPhrases[date];
             const li = document.createElement('li');
             li.style.padding = "10px 0";
             li.style.borderBottom = "1px solid #eee";
-            // 💡 クリックするとそのフレーズを表示するリンクにする
             li.innerHTML = `
-                <a href="#${date}" onclick="displaySpecificPhrase('${date}'); return false;" style="text-decoration:none; color:inherit;">
+                <a href="javascript:void(0);" onclick="displaySpecificPhrase('${date}');" style="text-decoration:none; color:inherit;">
                     <strong>${date}</strong>: ${item.phrase} <br>
-                    <small style="color:var(--accent-red)">詳細を見る →</small>
+                    <small style="color:red">詳細を見る →</small>
                 </a>`;
             list.appendChild(li);
         });
