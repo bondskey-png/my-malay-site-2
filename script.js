@@ -171,66 +171,67 @@ function switchPhoto(cardId, type) {
 
 /**
  * 1. 毎日のマレー語データ管理
- * 日付 (YYYY-MM-DD) をキーにしてデータを格納します
- */
-const dailyPhrases = {
-    "2026-03-29": {
-        phrase: "Selamat pagi.",
-        katakana: "《スラマッ パギ》",
-        meaning: "おはようございます。",
-        nuance: "朝、家族や友人、同僚などに出会った際に使われる最も一般的な挨拶です。<br> マレー語で Selamat は「安全な」「平安な」、Pagi は「朝」を意味します。直訳すると「平安な朝を」という願いが込められています。<br> マレーシアでは丁寧な挨拶として非常に重要視されており、笑顔で交わすことで人間関係を円滑にする魔法の言葉です。",
-        examples: [
-            {
-                title: "1. 職場での挨拶",
-                a: "Selamat pagi, Encik Ahmad.<br><small>（おはようございます、アハマドさん。）</small>",
-                b: "Selamat pagi, Ali. Awak nampak bersemangat hari ini!<br><small>（おはよう、アリ。今日は元気そうだね！）</small>"
-            },
-            {
-                title: "2. ホテルのフロントで",
-                a: "Selamat pagi. Boleh saya bantu anda dengan beg ini?<br><small>（おはようございます。このバッグのお手伝いをしましょうか？）</small>",
-                b: "Terima kasih. Di manakah tempat sarapan?<br><small>（ありがとうございます。朝食はどこですか？）</small>"
-            }
-        ],
-        tips: "マレーシアでは時間帯によって挨拶が以下のように変わります：<br>・Selamat tengah hari: 正午（12時〜14時頃）<br>・Selamat petang: 午後から夕方（14時〜日没頃）<br>・Selamat malam: 夜（おやすみなさい、または夜の挨拶）"
-    },
+// --- 1. 設定：IDは英数字の羅列のみにする ---
+const SHEET_ID = '1eGmjiAs4s1MXkCshg537MR1Vdjv232a5A10Jo9tlhUM'; 
+const TAB_NAME = 'phrase'; 
 
-    "2026-03-30": {
-        phrase: "Bagaimana khabar?",
-        katakana: "《バガイマナ カバール》",
-        meaning: "ご機嫌いかがですか？ / 調子はどうですか？",
-        nuance: "相手の健康状態や近況を尋ねる際に使われる丁寧な表現です。<br> 一般的に使われる Apa khabar?（お元気ですか？）と似ていますが、Bagaimana（どのように）を使うことで、より具体的に「最近の調子はどうですか？」と相手の状況を気遣うニュアンスが含まれます。<br> ビジネスシーンや、少し久しぶりに会った知人に対して使うと、より関心を持っている印象を与えることができます。",
-        examples: [
-            {
-                title: "1. 久しぶりに会った友人",
-                a: "Helo, lama tidak jumpa! Bagaimana khabar anda sekarang?<br><small>（やあ、久しぶり！最近の調子はどうだい？）</small>",
-                b: "Khabar baik. Saya sangat sibuk dengan kerja baru saya.<br><small>（元気だよ。新しい仕事でとても忙しくしているんだ。）</small>"
-            },
-            {
-                title: "2. ビジネスの打ち合わせで",
-                a: "Selamat pagi, Encik Rozak. Bagaimana khabar projek kita di Melaka?<br><small>（おはようございます、ロザックさん。マラッカのプロジェクトの進捗はいかがですか？）</small>",
-                b: "Semuanya berjalan lancar seperti yang dirancang.<br><small>（すべて計画通り順調に進んでいます。）</small>"
-            }
-        ],
-        tips: "日常会話では短く Apa khabar?と言うのが最も一般的ですが、相手の近況をより深く知りたいときには Bagaimana khabar...? の後に特定のトピック（仕事や家族など）を続けて使うのが効果的です。"
-    },
+let dailyPhrases = {}; // 空のオブジェクトで初期化
 
-};
+// --- 2. データ取得関数 ---
+async function loadSpreadsheetData() {
+    // URLを正しく修正（/spreadsheets/d/ を含め、${} で変数を展開）
+    const url = `https://docs.google.com{SHEET_ID}/gviz/tq?tqx=out:json&sheet=${TAB_NAME}`;
 
-/**
- * 2. フレーズを表示する関数
- */
-/**
- * マレー語フレーズを表示する（引数があればその日を、なければ今日を表示）
- * @param {string} targetDate - "YYYY-MM-DD" 形式の日付（省略可）
- */
+
+    try {
+        const response = await fetch(url);
+        const text = await response.text();
+        const json = JSON.parse(text.substr(47).slice(0, -2));
+        const rows = json.table.rows;
+
+        const newData = {};
+        rows.forEach(row => {
+            const c = row.c;
+            if (!c || !c[0]) return;
+
+            // 日付をキーにする（A列: index 0）
+            const dateKey = c[0].f || String(c[0].v); 
+            
+            newData[dateKey] = {
+                category: c[1]?.v || "",
+                phrase:   c[2]?.v || "",
+                katakana: c[3]?.v || "",
+                meaning:  c[4]?.v || "",
+                nuance:   c[5]?.v || "",
+                examples: [
+                    {
+                        title: c[6]?.v || "",
+                        a: `${c[7]?.v || ""}<br><small>（${c[8]?.v || ""}）</small>`,
+                        b: `${c[9]?.v || ""}<br><small>（${c[10]?.v || ""}）</small>`
+                    },
+                    {
+                        title: c[11]?.v || "",
+                        a: `${c[12]?.v || ""}<br><small>（${c[13]?.v || ""}）</small>`,
+                        b: `${c[14]?.v || ""}<br><small>（${c[15]?.v || ""}）</small>`
+                    }
+                ],
+                tips: c[16]?.v || ""
+            };
+        });
+        dailyPhrases = newData;
+        console.log("Data loaded:", dailyPhrases);
+    } catch (e) {
+        console.error("Fetch error:", e);
+    }
+}
+
+
+// --- 3. 表示関数 ---
 function updateDailyPhrase(targetDate = null) {
     let today;
-    
     if (targetDate) {
-        // 引数があればそれを使う
         today = targetDate;
     } else {
-        // 引数がなければ今日の日付を計算
         const now = new Date();
         today = now.getFullYear() + '-' + 
                 String(now.getMonth() + 1).padStart(2, '0') + '-' + 
@@ -238,15 +239,12 @@ function updateDailyPhrase(targetDate = null) {
     }
 
     let data = dailyPhrases[today];
-
-    // もし指定された日付のデータがない（かつ引数なしの時）は最新を表示
     if (!data && !targetDate) {
         const dates = Object.keys(dailyPhrases).sort().reverse();
         data = dailyPhrases[dates[0]];
     }
 
     if (data) {
-        // 各要素への流し込み（既存の処理）
         const phraseEl = document.getElementById('today-phrase');
         const kanaEl = document.querySelector('.pronunciation');
         const meaningEl = document.querySelector('.meaning');
@@ -263,6 +261,7 @@ function updateDailyPhrase(targetDate = null) {
         if(exampleContainer) {
             exampleContainer.innerHTML = "";
             data.examples.forEach(ex => {
+                if(!ex.title) return; // 空の例文は表示しない
                 const div = document.createElement('div');
                 div.className = "dialogue";
                 div.innerHTML = `
@@ -273,31 +272,11 @@ function updateDailyPhrase(targetDate = null) {
                 exampleContainer.appendChild(div);
             });
         }
-        
-        // 過去のリンクから飛んできた場合は、ページを「マレー語」に切り替える
-        if (targetDate) {
-            showPage('malay');
-            // アーカイブ一覧は閉じる
-            document.getElementById('archive').classList.add('hidden');
-        }
+        if (targetDate) showPage('malay');
     }
 }
 
-// ページ読み込み時に実行
-window.addEventListener('DOMContentLoaded', updateDailyPhrase);
-
-/**
- * 3. ページ切り替え機能 (既存)
- */
-function showPage(pageId) {
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(page => page.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-}
-
-/**
- * 4. アーカイブ表示 (既存のロジックに全データを出すよう修正)
- */
+// --- 4. アーカイブ表示 ---
 function toggleArchive() {
     const archive = document.getElementById('archive');
     archive.classList.toggle('hidden');
@@ -305,21 +284,54 @@ function toggleArchive() {
     if (!archive.classList.contains('hidden')) {
         const list = document.getElementById('phrase-list');
         list.innerHTML = ""; 
-        // 登録されている全データをリスト化
-        Object.keys(dailyPhrases).forEach(date => {
+        Object.keys(dailyPhrases).sort().reverse().forEach(date => {
             const item = dailyPhrases[date];
             const li = document.createElement('li');
+            li.style.padding = "10px 0";
             li.style.borderBottom = "1px solid #eee";
-            li.innerHTML = `<strong>${date}</strong>: ${item.phrase} <br> <small>${item.meaning}</small>`;
+            li.innerHTML = `
+                <a href="#${date}" onclick="displaySpecificPhrase('${date}'); return false;" style="text-decoration:none; color:inherit;">
+                    <strong>${date}</strong>: ${item.phrase} <br>
+                    <small style="color:red">詳細を見る →</small>
+                </a>`;
             list.appendChild(li);
         });
     }
 }
 
-// 実行
-window.onload = () => {
-    updateDailyPhrase();
-};
+function displaySpecificPhrase(date) {
+    updateDailyPhrase(date);
+    window.location.hash = date;
+    document.getElementById('archive').classList.add('hidden');
+}
+
+function showPage(pageId) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => page.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+}
+
+// --- 5. 起動処理 ---
+window.addEventListener('DOMContentLoaded', async () => {
+    await loadSpreadsheetData(); // データを待つ
+
+    if(typeof updateMalaysiaClock === 'function') updateMalaysiaClock();
+    if(typeof showSlides === 'function') showSlides();
+
+    const hash = window.location.hash.replace('#', '');
+    if (dailyPhrases[hash]) {
+        updateDailyPhrase(hash);
+    } else {
+        updateDailyPhrase();
+    }
+});
+
+
+// アーカイブから特定のフレーズを表示する関数も追加
+function displaySpecificPhrase(date) {
+    updateDailyPhrase(date);
+    window.location.hash = date;
+}
 
 
 /**
