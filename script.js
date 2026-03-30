@@ -171,10 +171,11 @@ function switchPhoto(cardId, type) {
 
 /**
  * 1. 毎日のマレー語データ管理
+ */
 // --- 1. 設定（一番上） ---
-let dailyPhrases = {}; 
-const SHEET_ID = '1eGmjiAs4s1MXkCshg537MR1Vdjv232a5A10Jo9tlhUM';
-const TAB_NAME = 'phrase';
+const SHEET_ID = '1eGmjiAs4s1MXkCshg537MR1Vdjv232a5A10Jo9tlhUM'; 
+const TAB_NAME = 'phrase'; 
+let dailyPhrases = {}; // 空のオブジェクトで初期化
 
 // --- 2. データ取得関数 ---
 async function loadSpreadsheetData() {
