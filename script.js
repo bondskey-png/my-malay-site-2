@@ -179,7 +179,7 @@ let dailyPhrases = {}; // 空のオブジェクトで初期化
 
 // --- 2. データ取得関数 ---
 async function loadSpreadsheetData() {
-    const url = `https://docs.google.com{SHEET_ID}/gviz/tq?tqx=out:json&sheet=${TAB_NAME}`;
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${TAB_NAME}`;
     try {
         const response = await fetch(url);
         const text = await response.text();
