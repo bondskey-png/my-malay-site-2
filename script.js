@@ -171,18 +171,15 @@ function switchPhoto(cardId, type) {
 
 /**
  * 1. 毎日のマレー語データ管理
-// --- 1. 設定：IDは英数字の羅列のみにする ---
+// --- 1. 設定（一番上） ---
 const SHEET_ID = '1eGmjiAs4s1MXkCshg537MR1Vdjv232a5A10Jo9tlhUM'; 
 const TAB_NAME = 'phrase'; 
 
-let dailyPhrases = {}; // 空のオブジェクトで初期化
+let dailyPhrases = {}; // 必ず最初に定義
 
 // --- 2. データ取得関数 ---
 async function loadSpreadsheetData() {
-    // URLを正しく修正（/spreadsheets/d/ を含め、${} で変数を展開）
     const url = `https://docs.google.com{SHEET_ID}/gviz/tq?tqx=out:json&sheet=${TAB_NAME}`;
-
-
     try {
         const response = await fetch(url);
         const text = await response.text();
@@ -193,10 +190,7 @@ async function loadSpreadsheetData() {
         rows.forEach(row => {
             const c = row.c;
             if (!c || !c[0]) return;
-
-            // 日付をキーにする（A列: index 0）
             const dateKey = c[0].f || String(c[0].v); 
-            
             newData[dateKey] = {
                 category: c[1]?.v || "",
                 phrase:   c[2]?.v || "",
@@ -219,105 +213,29 @@ async function loadSpreadsheetData() {
             };
         });
         dailyPhrases = newData;
-        console.log("Data loaded:", dailyPhrases);
     } catch (e) {
         console.error("Fetch error:", e);
     }
 }
 
-
 // --- 3. 表示関数 ---
 function updateDailyPhrase(targetDate = null) {
-    let today;
-    if (targetDate) {
-        today = targetDate;
-    } else {
-        const now = new Date();
-        today = now.getFullYear() + '-' + 
-                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
-                String(now.getDate()).padStart(2, '0');
-    }
-
-    let data = dailyPhrases[today];
-    if (!data && !targetDate) {
-        const dates = Object.keys(dailyPhrases).sort().reverse();
-        data = dailyPhrases[dates[0]];
-    }
-
-    if (data) {
-        const phraseEl = document.getElementById('today-phrase');
-        const kanaEl = document.querySelector('.pronunciation');
-        const meaningEl = document.querySelector('.meaning');
-        const nuanceEl = document.querySelector('.nuance-text');
-        const tipsEl = document.querySelector('.tips-text');
-        const exampleContainer = document.getElementById('example-list');
-
-        if(phraseEl) phraseEl.innerText = data.phrase;
-        if(kanaEl) kanaEl.innerText = data.katakana;
-        if(meaningEl) meaningEl.innerText = `【意味】${data.meaning}`;
-        if(nuanceEl) nuanceEl.innerHTML = data.nuance;
-        if(tipsEl) tipsEl.innerHTML = data.tips;
-
-        if(exampleContainer) {
-            exampleContainer.innerHTML = "";
-            data.examples.forEach(ex => {
-                if(!ex.title) return; // 空の例文は表示しない
-                const div = document.createElement('div');
-                div.className = "dialogue";
-                div.innerHTML = `
-                    <p><strong>${ex.title}</strong></p>
-                    <p class="chat"><span>A:</span> ${ex.a}</p>
-                    <p class="chat"><span>B:</span> ${ex.b}</p>
-                `;
-                exampleContainer.appendChild(div);
-            });
-        }
-        if (targetDate) showPage('malay');
-    }
-}
-
-// --- 4. アーカイブ表示 ---
-function toggleArchive() {
-    const archive = document.getElementById('archive');
-    archive.classList.toggle('hidden');
-    
-    if (!archive.classList.contains('hidden')) {
-        const list = document.getElementById('phrase-list');
-        list.innerHTML = ""; 
-        Object.keys(dailyPhrases).sort().reverse().forEach(date => {
-            const item = dailyPhrases[date];
-            const li = document.createElement('li');
-            li.style.padding = "10px 0";
-            li.style.borderBottom = "1px solid #eee";
-            li.innerHTML = `
-            <a href="javascript:void(0);" onclick="displaySpecificPhrase('${date}');" style="text-decoration:none; color:inherit;">
-                <strong>${date}</strong>: ${item.phrase} <br>
-                <small style="color:red">詳細を見る →</small>
-            </a>`;
-            list.appendChild(li);
-        });
-    }
+    // ...以前お送りした updateDailyPhrase の中身をここに書く...
 }
 
 function displaySpecificPhrase(date) {
     updateDailyPhrase(date);
     window.location.hash = date;
-    document.getElementById('archive').classList.add('hidden');
+    const archive = document.getElementById('archive');
+    if (archive) archive.classList.add('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function showPage(pageId) {
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(page => page.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-}
-
-// --- 5. 起動処理 ---
+// --- 4. 起動処理（一番下にする） ---
 window.addEventListener('DOMContentLoaded', async () => {
-    await loadSpreadsheetData(); // データを待つ
+    await loadSpreadsheetData(); // データの読み込み完了を待つ
 
-    if(typeof updateMalaysiaClock === 'function') updateMalaysiaClock();
-    if(typeof showSlides === 'function') showSlides();
-
+    // その後に表示を実行
     const hash = window.location.hash.replace('#', '');
     if (dailyPhrases[hash]) {
         updateDailyPhrase(hash);
@@ -325,7 +243,6 @@ window.addEventListener('DOMContentLoaded', async () => {
         updateDailyPhrase();
     }
 });
-
 
 // アーカイブから特定のフレーズを表示する関数も追加
 function displaySpecificPhrase(date) {
