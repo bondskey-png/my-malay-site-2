@@ -290,10 +290,10 @@ function toggleArchive() {
             li.style.padding = "10px 0";
             li.style.borderBottom = "1px solid #eee";
             li.innerHTML = `
-                <a href="#${date}" onclick="displaySpecificPhrase('${date}'); return false;" style="text-decoration:none; color:inherit;">
-                    <strong>${date}</strong>: ${item.phrase} <br>
-                    <small style="color:red">詳細を見る →</small>
-                </a>`;
+            <a href="javascript:void(0);" onclick="displaySpecificPhrase('${date}');" style="text-decoration:none; color:inherit;">
+                <strong>${date}</strong>: ${item.phrase} <br>
+                <small style="color:red">詳細を見る →</small>
+            </a>`;
             list.appendChild(li);
         });
     }
@@ -329,9 +329,17 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 // アーカイブから特定のフレーズを表示する関数も追加
 function displaySpecificPhrase(date) {
+    // 1. データを画面に反映
     updateDailyPhrase(date);
+    // 2. URLの末尾に #2026-03-29 などを付与（ブックマーク用）
     window.location.hash = date;
+    // 3. アーカイブ一覧を閉じる
+    const archive = document.getElementById('archive');
+    if (archive) archive.classList.add('hidden');
 }
+
+// 画面の一番上（フレーズ表示部）までスムーズにスクロールさせる
+window.scrollTo({ top: 0, behavior: 'smooth' });
 
 
 /**
