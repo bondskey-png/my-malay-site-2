@@ -220,7 +220,52 @@ async function loadSpreadsheetData() {
 
 // --- 3. 表示関数 ---
 function updateDailyPhrase(targetDate = null) {
-    // ...以前お送りした updateDailyPhrase の中身をここに書く...
+    let today;
+    if (targetDate) {
+        today = targetDate;
+    } else {
+        const now = new Date();
+        today = now.getFullYear() + '-' + 
+                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(now.getDate()).padStart(2, '0');
+    }
+
+    let data = dailyPhrases[today];
+    if (!data && !targetDate) {
+        const dates = Object.keys(dailyPhrases).sort().reverse();
+        data = dailyPhrases[dates[0]];
+    }
+
+    if (data) {
+        const phraseEl = document.getElementById('today-phrase');
+        const kanaEl = document.querySelector('.pronunciation');
+        const meaningEl = document.querySelector('.meaning');
+        const nuanceEl = document.querySelector('.nuance-text');
+        const tipsEl = document.querySelector('.tips-text');
+        const exampleContainer = document.getElementById('example-list');
+
+        if(phraseEl) phraseEl.innerText = data.phrase;
+        if(kanaEl) kanaEl.innerText = data.katakana;
+        if(meaningEl) meaningEl.innerText = `【意味】${data.meaning}`;
+        if(nuanceEl) nuanceEl.innerHTML = data.nuance;
+        if(tipsEl) tipsEl.innerHTML = data.tips;
+
+        if(exampleContainer) {
+            exampleContainer.innerHTML = "";
+            data.examples.forEach(ex => {
+                if(!ex.title) return; // 空の例文は表示しない
+                const div = document.createElement('div');
+                div.className = "dialogue";
+                div.innerHTML = `
+                    <p><strong>${ex.title}</strong></p>
+                    <p class="chat"><span>A:</span> ${ex.a}</p>
+                    <p class="chat"><span>B:</span> ${ex.b}</p>
+                `;
+                exampleContainer.appendChild(div);
+            });
+        }
+        if (targetDate) showPage('malay');
+    }
 }
 
 function displaySpecificPhrase(date) {
