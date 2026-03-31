@@ -136,10 +136,10 @@ nav a:hover {
 /* ヒーローセクション（トップページ） */
 .hero {
     text-align: center;
-    padding: 3rem 1rem;
+    padding: 1rem 1rem;
     background: linear-gradient(135deg, var(--primary-yellow), #ffe574);
     border-radius: 20px;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 /* スライドショーのコンテナ */
@@ -148,7 +148,7 @@ nav a:hover {
     width: 100%;
     overflow: hidden; /* はみ出た分を隠す */
     position: relative;
-    padding: 40px 0;
+    padding:0 0 40px 0;
 }
 
 .slides-wrapper {
@@ -174,7 +174,7 @@ nav a:hover {
 
 .slide-item img {
     width: 100%;
-    height: 400px;
+    height: 500px;
     object-fit: cover;
     border-radius: 20px;
     display: block; /* 余計な隙間を消す */
