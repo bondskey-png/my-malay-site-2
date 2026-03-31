@@ -206,13 +206,17 @@ nav a:hover {
 
     /* 2. スライドアイテムの横幅 */
     .slide-item { 
-        min-width: 85%; 
+        min-width: 95%; 
+        margin: 0 5px;
+        transform: scale(0.95)
     }
 
     /* 3. スライド内画像と mySlides 内画像の高さ調整 */
     .slide-item img,
     .mySlides img { 
-        height: 250px; 
+        height: 280px;
+        width: 100%;
+        border-radius: 10px;
     }
 }
 
