@@ -198,25 +198,36 @@ nav a:hover {
 /* スマホ用設定（768px以下）を一括管理 */
 @media (max-width: 768px) {
     
-    /* 1. スライドショー全体のコンテナ（パターン3の修正） */
     .slideshow-container {
-        padding-top: 0;      /* 上の余白を消す */
-        margin-top: 0;   /* 必要に応じてマイナス値でさらに上に引き上げる */
+        padding-top: 0;
+        margin-top: 0;
+        /* 親要素で子要素（スライド）を中央に寄せる準備 */
+        display: flex;
+        justify-content: center;
     }
 
-    /* 2. スライドアイテムの横幅 */
     .slide-item { 
-        min-width: 95%; 
-        margin: 0 5px;
-        transform: scale(0.95)
+        /* ズレ防止のポイント：幅を100%に固定し、paddingで左右に隙間を作る */
+        min-width: 100% !important; 
+        margin: 0 !important; /* marginを0にして計算の狂いを防ぐ */
+        padding: 0 10px;      /* marginの代わりにpaddingで隣との隙間を作る */
+        box-sizing: border-box; /* paddingを含めて100%にする */
+        
+        transform: scale(0.95);
+        transition: transform 0.5s ease;
     }
 
-    /* 3. スライド内画像と mySlides 内画像の高さ調整 */
+    /* 中央にいる時だけ拡大（ズレが直ればこれが綺麗に効きます） */
+    .slide-item.center {
+        transform: scale(1);
+    }
+
     .slide-item img,
     .mySlides img { 
         height: 280px;
         width: 100%;
         border-radius: 10px;
+        object-fit: cover;
     }
 }
 
