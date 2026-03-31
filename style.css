@@ -195,15 +195,24 @@ nav a:hover {
 }
 
 
+/* スマホ用設定（768px以下）を一括管理 */
 @media (max-width: 768px) {
-    .slide-item { min-width: 85%; }
-    .slide-item img { height: 250px; }
-}
+    
+    /* 1. スライドショー全体のコンテナ（パターン3の修正） */
+    .slideshow-container {
+        padding-top: 0;      /* 上の余白を消す */
+        margin-top: -20px;   /* 必要に応じてマイナス値でさらに上に引き上げる */
+    }
 
-/* スマホ用の高さ調整 */
-@media (max-width: 768px) {
-    .mySlides img {
-        height: 250px;
+    /* 2. スライドアイテムの横幅 */
+    .slide-item { 
+        min-width: 85%; 
+    }
+
+    /* 3. スライド内画像と mySlides 内画像の高さ調整 */
+    .slide-item img,
+    .mySlides img { 
+        height: 250px; 
     }
 }
 
