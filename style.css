@@ -197,7 +197,7 @@ nav a:hover {
 
 /* スマホ用設定（768px以下）を一括管理 */
 @media (max-width: 768px) {
-    
+
     .slideshow-container {
         padding-top: 0;
         margin-top: 0;
@@ -206,31 +206,13 @@ nav a:hover {
         justify-content: center;
     }
 
-    .slide-item { 
-        /* ズレ防止のポイント：幅を100%に固定し、paddingで左右に隙間を作る */
-        min-width: 100% !important; 
-        margin: 0 !important; /* marginを0にして計算の狂いを防ぐ */
-        padding: 0 10px;      /* marginの代わりにpaddingで隣との隙間を作る */
-        box-sizing: border-box; /* paddingを含めて100%にする */
-        
-        transform: scale(0.95);
-        transition: transform 0.5s ease;
+    .slide-item { min-width: 85%; }
+    .slide-item img { height: 250px; }
+    .mySlides img {
+        height: 250px;
     }
 
-    /* 中央にいる時だけ拡大（ズレが直ればこれが綺麗に効きます） */
-    .slide-item.center {
-        transform: scale(1);
-    }
-
-    .slide-item img,
-    .mySlides img { 
-        height: 280px;
-        width: 100%;
-        border-radius: 10px;
-        object-fit: cover;
-    }
 }
-
 /* カード型レイアウト（場所・食事） */
 .card {
     background: white;
