@@ -192,7 +192,7 @@ nav a:hover {
     color: white;
     background: rgba(0,0,0,0.6); /* 帯にするなら少し濃いめ（0.6）が締まります */
     
-    padding: 5px 10px;        /* 上下15px、左右10pxの余白 */
+    padding: 2px 10px;        /* 上下15px、左右10pxの余白 */
     text-align: center;       /* 文字は中央に寄せる */
     
     /* 帯状にするため、角丸（border-radius）は削除します */
@@ -207,20 +207,14 @@ nav a:hover {
 
 
 /* スマホ用設定（768px以下）を一括管理 */
-
 @media (max-width: 768px) {
     .slide-item { min-width: 85%; }
     .slide-item img { height: 250px; }
-}
 
-/* スマホ用の高さ調整 */
-@media (max-width: 768px) {
+    /* スマホ用の高さ調整 */
     .mySlides img {
         height: 250px;
     }
-}
-
-@media (max-width: 768px) {
 
     /* 1. スライドショーの外枠自体の左右余白をリセット */
     .slideshow-container {
@@ -512,6 +506,15 @@ footer {
     position: relative;
     height: 400px;
     background: #eee;
+}
+
+/* スマホ表示の調整 */
+@media (max-width: 768px) {
+    .food-image-container {
+        position: relative;
+        height: 200px;
+        background: #eee;
+    }
 }
 
 .food-image-container img {
