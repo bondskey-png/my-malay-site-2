@@ -19,7 +19,7 @@ body {
 
 /* ヘッダーのスタイル */
 header {
-    background-color: var(--primary-yellow);
+    background-color: var(--deep-blue);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
@@ -33,7 +33,7 @@ header {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--deep-blue);
+    color: var(--primary-yellow);
 }
 
 nav ul {
@@ -42,11 +42,12 @@ nav ul {
     gap: 15px;
     margin: 0;
     padding: 0;
+    color: var(--primary-yellow);
 }
 
 nav a {
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--primary-yellow);
     font-weight: bold;
     transition: color 0.3s;
 }
@@ -209,6 +210,14 @@ nav a:hover {
     }
 }
 
+@media (max-width: 768px) {
+
+    /* 1. スライドショーの外枠自体の左右余白をリセット */
+    .slideshow-container {
+        width: 100vw;       /* 画面の横幅いっぱいに指定 */
+padding: 0;         /* 内部の余白もゼロに */
+    }
+}
 
 /* カード型レイアウト（場所・食事） */
 .card {
