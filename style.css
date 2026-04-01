@@ -213,9 +213,6 @@ nav a:hover {
 
     /* 1. スライドショーの外枠自体の左右余白をリセット */
     .slideshow-container {
-        width: 100vw;       /* 画面の横幅いっぱいに指定 */
-        margin-left: calc(-50vw + 50%); /* 親要素のpaddingを無視して画面端まで広げる裏技 */
-        margin-right: calc(-50vw + 50%);
         padding: 0;         /* 内部の余白もゼロに */
     }
 }
