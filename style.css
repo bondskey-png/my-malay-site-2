@@ -198,20 +198,26 @@ nav a:hover {
 /* スマホ用設定（768px以下）を一括管理 */
 @media (max-width: 768px) {
 
-    .slideshow-container {
-        padding-top: 0;
-        margin-top: 0;
-
-    }
-
     .slide-item { min-width: 85%; }
+
     .slide-item img { height: 250px; }
 
+}
+
+
+
+/* スマホ用の高さ調整 */
+
+@media (max-width: 768px) {
+
     .mySlides img {
+
         height: 250px;
+
     }
 
 }
+
 /* カード型レイアウト（場所・食事） */
 .card {
     background: white;
