@@ -197,11 +197,10 @@ nav a:hover {
 
 /* スマホ用設定（768px以下）を一括管理 */
 @media (max-width: 768px) {
-    .slide-item { min-width: 85%;
-                  margin: 0 5px;
-    }
+    .slide-item { min-width: 85%;}
     .slide-item img { height: 250px; }
 }
+
 /* スマホ用の高さ調整 */
 @media (max-width: 768px) {
     .mySlides img {
