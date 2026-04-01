@@ -166,12 +166,18 @@ window.switchPhoto = function(photoId, type) {
 };
 
 // 3. 指定した記事をメインエリアに表示する関数
-window.showPost = function(index) {
+window.showPost = function(index, updateHash = true) {
     const post = allPosts[index];
     const container = document.getElementById('latest-food-container');
-    
+    if (!post || !container) return;
+
+    // URLの末尾（ハッシュ）を更新 (#post-0 など)
+    if (updateHash) {
+        window.location.hash = `post-${index}`;
+    }
+
     const html = `
-        <article class="food-card">
+        <article class="food-card" id="current-view-post">
             <div class="food-image-container" id="latest-container">
                 <img src="${post.foodImg}" class="img-food" alt="料理" style="display: block; width: 100%; height: 100%; object-fit: cover;">
                 <img src="${post.shopImg}" class="img-shop" alt="外観" style="display: none; width: 100%; height: 100%; object-fit: cover;">
@@ -189,12 +195,20 @@ window.showPost = function(index) {
                     <a href="${post.mapUrl}" target="_blank" style="color:#d2a679; text-decoration:none; border:1px solid #ddd; padding:8px 15px; border-radius:5px; display:inline-block; margin:10px 0;">📍 Googleマップで確認</a>
                 </div>
                 <div class="rating">オススメ度：${post.rating}</div>
+                
+                <div style="margin-top:20px; font-size:0.8rem; color:#888;">
+                    🔗 この記事のリンク: <input type="text" value="${window.location.href}" readonly 
+                        onclick="this.select(); document.execCommand('copy'); alert('リンクをコピーしました！');" 
+                        style="width:70%; border:1px solid #eee; padding:5px; cursor:pointer;">
+                </div>
             </div>
         </article>
     `;
     container.innerHTML = html;
-    // クリック後にページの一番上（または記事エリア）へスムーズにスクロール
-    window.scrollTo({ top: container.offsetTop - 20, behavior: 'smooth' });
+    
+    // スムーズスクロール
+    const targetY = container.getBoundingClientRect().top + window.pageYOffset - 20;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
 };
 
 // 4. CSV解析（以前と同じ強力なもの）
@@ -217,6 +231,35 @@ function parseComplexCSV(text) {
     }
     if (field !== "" || row.length > 0) { row.push(field); result.push(row); }
     return result;
+}
+
+// 5. ページ読み込み時や「戻る」ボタンを押した時に、ハッシュを見て記事を表示する
+window.addEventListener('hashchange', () => {
+    const hash = window.location.hash;
+    if (hash.startsWith('#post-')) {
+        const index = parseInt(hash.replace('#post-', ''));
+        if (!isNaN(index) && allPosts[index]) {
+            showPost(index, false); // ハッシュ変更時はループ防止のため第2引数をfalseに
+        }
+    }
+});
+
+// loadFoodData関数の最後（初期表示）も少し修正します
+async function loadFoodData() {
+    // ... (前回のCSV解析コード) ...
+    
+    // 初期表示：ハッシュがあればそれを表示、なければ最新を表示
+    const hash = window.location.hash;
+    if (hash.startsWith('#post-')) {
+        const index = parseInt(hash.replace('#post-', ''));
+        if (!isNaN(index) && allPosts[index]) {
+            showPost(index, false);
+        } else {
+            showPost(allPosts.length - 1);
+        }
+    } else {
+        showPost(allPosts.length - 1);
+    }
 }
 
 async function loadFoodData() {

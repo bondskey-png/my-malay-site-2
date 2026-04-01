@@ -516,7 +516,7 @@ footer {
 @media (max-width: 768px) {
     .food-image-container {
         position: relative;
-        height: 400px;
+        height: 200px;
         background: #eee;
     }
 }
@@ -644,6 +644,23 @@ footer {
 
 .archive-item strong:hover {
     color: #deb887; /* タイトルの色を変える */
+}
+
+.archive-item {
+    transition: transform 0.1s ease;
+}
+
+.archive-item:active {
+    transform: scale(0.98); /* クリックした瞬間に少し沈む演出 */
+}
+
+.archive-item strong {
+    color: #444;
+    text-decoration: none;
+}
+
+.archive-item:hover strong {
+    text-decoration: underline; /* ホバーで下線を表示 */
 }
 
 /* 過去のフレーズ一覧の枠も中央に寄せる */
