@@ -201,13 +201,12 @@ nav a:hover {
     .slideshow-container {
         padding-top: 0;
         margin-top: 0;
-        /* 親要素で子要素（スライド）を中央に寄せる準備 */
-        display: flex;
-        justify-content: center;
+
     }
 
     .slide-item { min-width: 85%; }
     .slide-item img { height: 250px; }
+
     .mySlides img {
         height: 250px;
     }
