@@ -161,7 +161,7 @@ nav a:hover {
 }
 
 .slide-item {
-    width: 70vw; 
+    width: 80vw; 
     flex-shrink: 0;
     margin: 0 15px;
     opacity: 0.3;
@@ -185,7 +185,7 @@ nav a:hover {
 
 .slide-text {
     position: absolute;
-    bottom: 0;       /* 帯にするなら下ぴったり（0）に付けるのがおすすめです */
+    bottom: 20px;       /* 帯にするなら下ぴったり（0）に付けるのがおすすめです */
     left: 0;         /* 左端から */
     width: 100%;     /* 右端まで（幅100%） */
     
