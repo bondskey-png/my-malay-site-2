@@ -213,7 +213,6 @@ nav a:hover {
 
     /* 1. スライドショーの外枠自体の左右余白をリセット */
     .slideshow-container {
-        width: 100vw;       /* 画面の横幅いっぱいに指定 */
         padding: 0;         /* 内部の余白もゼロに */
     }
 }
