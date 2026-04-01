@@ -501,18 +501,22 @@ footer {
     background: #eee;
 }
 
-/* 写真コンテナ */
+/* 写真を入れる枠（コンテナ）の設定 */
 .food-image-container {
     position: relative;
-    height: 400px;
-    background: #eee;
+    width: 100%;
+    height: 400px; /* 写真の高さを固定（お好みで調整） */
+    background:transparent; /* ここを #f0f0f0 から透明に変更 */
+    overflow: hidden;
+    border-radius: 8px; /* 角を少し丸くする */
+    margin-bottom: 15px;
 }
 
 /* スマホ表示の調整 */
 @media (max-width: 768px) {
     .food-image-container {
         position: relative;
-        height: 200px;
+        height: 400px;
         background: #eee;
     }
 }
@@ -521,50 +525,89 @@ footer {
     min-height: 400px;
 }
 
-.food-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* 料理写真と外観写真の共通設定 */
+.img-food, .img-shop {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 枠いっぱいにきれいに収める */
+    transition: opacity 0.3s ease; /* 切り替えをふわっとさせる */
 }
 
-/* 表示中の写真 */
-.food-image-container img.active {
-    opacity: 1;
+.img-food.active, .img-shop.active {
+    z-index: 2;
 }
 
-/* 切り替えボタン */
+/* 写真切り替えボタン（写真の右下に配置） */
 .photo-switcher {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    gap: 5px;
-    z-index: 10;
+    position: absolute !important;
+    bottom: 10px !important;
+    right: 10px !important;
+    background: transparent !important; /* 背景を透明に強制 */
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    gap: 8px !important;
+}
+
+/* 写真切り替えボタンの親要素を完全に透明にする */
+#latest-container .photo-switcher {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
 .photo-switcher button {
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.7rem;
+    padding: 6px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.5); /* 軽く白枠をつける（写真の上で見やすくするため） */
+    background: rgba(255, 255, 255, 0.8); /* ボタン自体の背景は白っぽく */
     cursor: pointer;
-    transition: background 0.3s;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    color: #333;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: all 0.2s ease;
 }
 
 .photo-switcher button.active {
-    background: var(--accent-red);
+    background: #deb887; /* ベージュ */
+    color: white;
+    border-color: #deb887;
+    font-weight: bold;
 }
 
-.photo-switcher button:hover {
-    background: var(--deep-blue);
+/* 価格タグ */
+.price-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    z-index: 5;
+}
 
+.map-link {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #d2a679;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.map-link:hover {
+    background-color: #eee;
 }
 
 .archive-list {
@@ -592,6 +635,15 @@ footer {
 .archive-list a:hover {
     color: var(--primary-yellow);
     text-decoration: underline;
+}
+
+.archive-item:hover {
+    background-color: #fff9f0 !important; /* 薄いベージュ */
+    transition: background-color 0.2s ease;
+}
+
+.archive-item strong:hover {
+    color: #deb887; /* タイトルの色を変える */
 }
 
 /* 過去のフレーズ一覧の枠も中央に寄せる */

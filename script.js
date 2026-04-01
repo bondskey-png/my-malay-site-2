@@ -145,97 +145,117 @@ window.addEventListener('DOMContentLoaded', () => {
     updateMalaysiaClock(); // 時計を即座に表示
 });
 
-// 1. 写真切り替え関数の修正（動的なIDに対応）
-function switchPhoto(photoId, type) {
-    // コンテナを取得
+// 写真切り替え関数（グローバル）
+// 1. グローバル変数でデータを保持
+let allPosts = [];
+
+// 2. 写真切り替え関数
+window.switchPhoto = function(photoId, type) {
     const container = document.getElementById(`${photoId}-container`);
     if (!container) return;
-
     const mainImg = container.querySelector('.img-food');
     const shopImg = container.querySelector('.img-shop');
-    const buttons = container.querySelectorAll('.photo-switcher button');
-
+    const btns = container.querySelectorAll('.photo-switcher button');
     if (type === 'main') {
-        mainImg.classList.add('active');
-        shopImg.classList.remove('active');
-        buttons[0].classList.add('active');
-        buttons[1].classList.remove('active');
+        mainImg.style.display = 'block'; shopImg.style.display = 'none';
+        btns[0].classList.add('active'); btns[1].classList.remove('active');
     } else {
-        mainImg.classList.remove('active');
-        shopImg.classList.add('active');
-        buttons[0].classList.remove('active');
-        buttons[1].classList.add('active');
+        mainImg.style.display = 'none'; shopImg.style.display = 'block';
+        btns[0].classList.remove('active'); btns[1].classList.add('active');
     }
+};
+
+// 3. 指定した記事をメインエリアに表示する関数
+window.showPost = function(index) {
+    const post = allPosts[index];
+    const container = document.getElementById('latest-food-container');
+    
+    const html = `
+        <article class="food-card">
+            <div class="food-image-container" id="latest-container">
+                <img src="${post.foodImg}" class="img-food" alt="料理" style="display: block; width: 100%; height: 100%; object-fit: cover;">
+                <img src="${post.shopImg}" class="img-shop" alt="外観" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                <span class="price-tag">${post.price}</span>
+                <div class="photo-switcher">
+                    <button onclick="switchPhoto('latest', 'main')" class="active">料理</button>
+                    <button onclick="switchPhoto('latest', 'shop')">外観</button>
+                </div>
+            </div>
+            <div class="food-info">
+                <span class="category">${post.category}</span>
+                <h3>${post.title}</h3>
+                <div class="food-text-content" style="white-space: pre-wrap; margin: 10px 0;">${post.content}</div>
+                <div class="restaurant-info">
+                    <a href="${post.mapUrl}" target="_blank" style="color:#d2a679; text-decoration:none; border:1px solid #ddd; padding:8px 15px; border-radius:5px; display:inline-block; margin:10px 0;">📍 Googleマップで確認</a>
+                </div>
+                <div class="rating">オススメ度：${post.rating}</div>
+            </div>
+        </article>
+    `;
+    container.innerHTML = html;
+    // クリック後にページの一番上（または記事エリア）へスムーズにスクロール
+    window.scrollTo({ top: container.offsetTop - 20, behavior: 'smooth' });
+};
+
+// 4. CSV解析（以前と同じ強力なもの）
+function parseComplexCSV(text) {
+    const result = []; let row = []; let field = ""; let inQuotes = false;
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i]; const nextChar = text[i + 1];
+        if (inQuotes) {
+            if (char === '"' && nextChar === '"') { field += '"'; i++; }
+            else if (char === '"') inQuotes = false;
+            else field += char;
+        } else {
+            if (char === '"') inQuotes = true;
+            else if (char === ',') { row.push(field); field = ""; }
+            else if (char === '\r' || char === '\n') {
+                if (field !== "" || row.length > 0) { row.push(field); result.push(row); row = []; field = ""; }
+                if (char === '\r' && nextChar === '\n') i++;
+            } else field += char;
+        }
+    }
+    if (field !== "" || row.length > 0) { row.push(field); result.push(row); }
+    return result;
 }
 
-// 2. データの読み込みと表示
 async function loadFoodData() {
-    const csvUrl ="https://docs.google.com/spreadsheets/d/e/2PACX-1vTeujd5X14hYw3qfi4_ZMbt3yeyrIrG1ALtVNAbL9ROfIamIB1P0BYFypM1t99SZ5SYjqA-Uf2B5mRi/pub?gid=375520748&single=true&output=csv"; 
-    
-try {
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeujd5X14hYw3qfi4_ZMbt3yeyrIrG1ALtVNAbL9ROfIamIB1P0BYFypM1t99SZ5SYjqA-Uf2B5mRi/pub?gid=375520748&single=true&output=csv"; 
+    try {
         const response = await fetch(csvUrl);
-        const data = await response.text();
+        const csvText = await response.text();
+        const allData = parseComplexCSV(csvText);
         
-        // CSVのパース（カンマ問題対策：単純なsplit(',')より少し安全な方法）
-        const rows = data.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
-        
-        const posts = rows.map(row => {
-            // カンマで分割（※項目内にカンマがあるとズレるので注意）
-            const cols = row.split(','); 
-            return {
-                date: cols[0], category: cols[1], title: cols[2], content: cols[3],
-                price: cols[4], food_image: cols[5], shop_image: cols[6], map_url: cols[7], rating: cols[8]
-            };
-        }).reverse();
+        allPosts = allData.slice(1).filter(cols => cols.length >= 6).map(cols => ({
+            date: cols[0], category: cols[1], title: cols[2], content: cols[3],
+            price: cols[4], foodImg: cols[5].trim(), shopImg: cols[6].trim(),
+            mapUrl: cols[7].trim(), rating: cols[8]
+        }));
 
-        // --- 最新記事の表示 ---
-        const latest = posts[0];
-        const latestHtml = `
-            <article class="food-card">
-                <div class="food-image-container" id="latest-container">
-                    <img src="${latest.food_image}" class="img-food active" alt="Food">
-                    <img src="${latest.shop_image}" class="img-shop" alt="Shop">
-                    <span class="price-tag">${latest.price}</span>
-                    <div class="photo-switcher">
-                        <button onclick="switchPhoto('latest', 'main')" class="active">料理</button>
-                        <button onclick="switchPhoto('latest', 'shop')">外観</button>
-                    </div>
-                </div>
-                <div class="food-info">
-                    <span class="category">${latest.category}</span>
-                    <h3>${latest.title}</h3>
-                    <p>${latest.content}</p>
-                    <p>${latest.price}</p>
-                    <div class="restaurant-info">
-                        <iframe src="${latest.map_url}" width="100%" height="250" style="border:0;" loading="lazy"></iframe>
-                    </div>
-                    <div class="rating">オススメ度：${latest.rating}</div>
-                </div>
-            </article>
-        `;
-        document.getElementById('latest-food-container').innerHTML = latestHtml;
+        // 初期表示（最新記事）
+        showPost(allPosts.length - 1);
 
-        // --- 過去記事リストの表示 ---
+        // 過去記事リストの生成
         const archiveList = document.getElementById('food-archive-list');
-        archiveList.innerHTML = ""; 
-        posts.slice(1).forEach((post) => {
-            if(!post.title) return; // 空行対策
+        archiveList.innerHTML = "";
+        allPosts.forEach((p, index) => {
             const li = document.createElement('li');
             li.className = "archive-item";
+            li.style.cssText = "display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee; cursor:pointer; align-items:center;";
+            // クリックイベントを追加
+            li.onclick = () => showPost(index);
+            
             li.innerHTML = `
-                <span class="archive-date">${post.date}</span>
-                <span class="archive-category">${post.category}</span>
-                <a href="#" class="archive-link">${post.title}</a>
+                <span style="font-size:0.8rem; color:#888; width:80px;">${p.date}</span>
+                <strong style="flex:1; margin:0 15px; font-size:0.9rem;">${p.title}</strong>
+                <span style="font-size:0.7rem; background:#f0f0f0; padding:3px 8px; border-radius:4px;">${p.category}</span>
             `;
-            archiveList.appendChild(li);
+            archiveList.prepend(li); // 新しい順に並べる
         });
-
-    } catch (error) {
-        console.error("データの読み込みエラー:", error);
-    }
+    } catch (e) { console.error("Error:", e); }
 }
 
-window.onload = loadFoodData;
+document.addEventListener('DOMContentLoaded', loadFoodData);
 
 /**
  * 1. 毎日のマレー語データ管理
