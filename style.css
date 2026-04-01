@@ -197,28 +197,13 @@ nav a:hover {
 
 /* スマホ用設定（768px以下）を一括管理 */
 @media (max-width: 768px) {
-
-    /* 1. スライドショーの外枠自体の左右余白をリセット */
-    .slideshow-container {
-        width: 100vw;       /* 画面の横幅いっぱいに指定 */
-        margin-left: calc(-50vw + 50%); /* 親要素のpaddingを無視して画面端まで広げる裏技 */
-        margin-right: calc(-50vw + 50%);
-        padding: 0;         /* 内部の余白もゼロに */
-    }
-
-    /* 2. スライド写真の横幅調整（85%から90〜95%へ） */
-    .slide-item { 
-        min-width: 92%;     /* ここを大きくすると写真が太くなります */
-        margin: 0 5px;      /* 写真同士の隙間を狭くして横幅を確保 */
-    }
-
-    /* 3. 写真の高さと角丸の調整 */
-    .slide-item img,
-    .mySlides img { 
-        height: 250px; 
-        width: 100%;
-        object-fit: cover;
-        border-radius: 10px; /* 横に広がる分、角丸を少し抑えるとスッキリします */
+    .slide-item { min-width: 92%; }
+    .slide-item img { height: 250px; }
+}
+/* スマホ用の高さ調整 */
+@media (max-width: 768px) {
+    .mySlides img {
+        height: 250px;
     }
 }
 
