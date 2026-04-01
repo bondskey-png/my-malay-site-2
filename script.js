@@ -240,9 +240,16 @@ window.addEventListener('hashchange', () => {
         const index = parseInt(hash.replace('#post-', ''));
         if (!isNaN(index) && allPosts[index]) {
             showPost(index, false); // ハッシュ変更時はループ防止のため第2引数をfalseに
+        } else {
+                // ハッシュがなければ「配列の一番最後（最新）」を表示
+                showPost(allPosts.length - 1);
+            }
+        } else {
+            // 【重要】ここが修正ポイント：一番下の行を表示する
+            showPost(allPosts.length - 1);
         }
     }
-});
+);
 
 // loadFoodData関数の最後（初期表示）も少し修正します
 async function loadFoodData() {
@@ -278,23 +285,29 @@ async function loadFoodData() {
         // 初期表示（最新記事）
         showPost(allPosts.length - 1);
 
-        // 過去記事リストの生成
+
+// 3. 過去記事リストを生成（新しい順に並べる）
         const archiveList = document.getElementById('food-archive-list');
         archiveList.innerHTML = "";
-        allPosts.forEach((p, index) => {
+
+        // 配列を後ろ（最新）から前（最古）に向かってループ回す
+        for (let i = allPosts.length - 1; i >= 0; i--) {
+            const p = allPosts[i];
             const li = document.createElement('li');
             li.className = "archive-item";
             li.style.cssText = "display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #eee; cursor:pointer; align-items:center;";
-            // クリックイベントを追加
-            li.onclick = () => showPost(index);
+            
+            // クリックしたらその番号の記事を表示
+            li.onclick = () => showPost(i);
             
             li.innerHTML = `
-                <span style="font-size:0.8rem; color:#888; width:80px;">${p.date}</span>
+                <span style="font-size:0.8rem; color:#888; width:85px;">${p.date}</span>
                 <strong style="flex:1; margin:0 15px; font-size:0.9rem;">${p.title}</strong>
                 <span style="font-size:0.7rem; background:#f0f0f0; padding:3px 8px; border-radius:4px;">${p.category}</span>
             `;
-            archiveList.prepend(li); // 新しい順に並べる
-        });
+            archiveList.appendChild(li);
+        }
+
     } catch (e) { console.error("Error:", e); }
 }
 
