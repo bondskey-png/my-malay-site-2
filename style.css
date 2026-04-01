@@ -517,6 +517,10 @@ footer {
     }
 }
 
+#latest-food-container {
+    min-height: 400px;
+}
+
 .food-image-container img {
     width: 100%;
     height: 100%;
@@ -561,6 +565,33 @@ footer {
 .photo-switcher button:hover {
     background: var(--deep-blue);
 
+}
+
+.archive-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+}
+.archive-list li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    gap: 20px;
+}
+.archive-list .date {
+    color: #888;
+    font-size: 0.9rem;
+    min-width: 100px;
+}
+.archive-list a {
+    color: #333;
+    text-decoration: none;
+}
+.archive-list a:hover {
+    color: var(--primary-yellow);
+    text-decoration: underline;
 }
 
 /* 過去のフレーズ一覧の枠も中央に寄せる */

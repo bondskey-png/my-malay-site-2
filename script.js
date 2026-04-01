@@ -145,11 +145,10 @@ window.addEventListener('DOMContentLoaded', () => {
     updateMalaysiaClock(); // 時計を即座に表示
 });
 
-/**
- * 料理/外観写真の切り替え (IDを元に特定のカード内だけ操作)
- */
-function switchPhoto(cardId, type) {
-    const container = document.getElementById(cardId + '-container');
+// 1. 写真切り替え関数の修正（動的なIDに対応）
+function switchPhoto(photoId, type) {
+    // コンテナを取得
+    const container = document.getElementById(`${photoId}-container`);
     if (!container) return;
 
     const mainImg = container.querySelector('.img-food');
@@ -168,6 +167,75 @@ function switchPhoto(cardId, type) {
         buttons[1].classList.add('active');
     }
 }
+
+// 2. データの読み込みと表示
+async function loadFoodData() {
+    const csvUrl ="https://docs.google.com/spreadsheets/d/e/2PACX-1vTeujd5X14hYw3qfi4_ZMbt3yeyrIrG1ALtVNAbL9ROfIamIB1P0BYFypM1t99SZ5SYjqA-Uf2B5mRi/pub?gid=375520748&single=true&output=csv"; 
+    
+try {
+        const response = await fetch(csvUrl);
+        const data = await response.text();
+        
+        // CSVのパース（カンマ問題対策：単純なsplit(',')より少し安全な方法）
+        const rows = data.split(/\r?\n/).filter(row => row.trim() !== "").slice(1);
+        
+        const posts = rows.map(row => {
+            // カンマで分割（※項目内にカンマがあるとズレるので注意）
+            const cols = row.split(','); 
+            return {
+                date: cols[0], category: cols[1], title: cols[2], content: cols[3],
+                price: cols[4], food_image: cols[5], shop_image: cols[6], map_url: cols[7], rating: cols[8]
+            };
+        }).reverse();
+
+        // --- 最新記事の表示 ---
+        const latest = posts[0];
+        const latestHtml = `
+            <article class="food-card">
+                <div class="food-image-container" id="latest-container">
+                    <img src="${latest.food_image}" class="img-food active" alt="Food">
+                    <img src="${latest.shop_image}" class="img-shop" alt="Shop">
+                    <span class="price-tag">${latest.price}</span>
+                    <div class="photo-switcher">
+                        <button onclick="switchPhoto('latest', 'main')" class="active">料理</button>
+                        <button onclick="switchPhoto('latest', 'shop')">外観</button>
+                    </div>
+                </div>
+                <div class="food-info">
+                    <span class="category">${latest.category}</span>
+                    <h3>${latest.title}</h3>
+                    <p>${latest.content}</p>
+                    <p>${latest.price}</p>
+                    <div class="restaurant-info">
+                        <iframe src="${latest.map_url}" width="100%" height="250" style="border:0;" loading="lazy"></iframe>
+                    </div>
+                    <div class="rating">オススメ度：${latest.rating}</div>
+                </div>
+            </article>
+        `;
+        document.getElementById('latest-food-container').innerHTML = latestHtml;
+
+        // --- 過去記事リストの表示 ---
+        const archiveList = document.getElementById('food-archive-list');
+        archiveList.innerHTML = ""; 
+        posts.slice(1).forEach((post) => {
+            if(!post.title) return; // 空行対策
+            const li = document.createElement('li');
+            li.className = "archive-item";
+            li.innerHTML = `
+                <span class="archive-date">${post.date}</span>
+                <span class="archive-category">${post.category}</span>
+                <a href="#" class="archive-link">${post.title}</a>
+            `;
+            archiveList.appendChild(li);
+        });
+
+    } catch (error) {
+        console.error("データの読み込みエラー:", error);
+    }
+}
+
+window.onload = loadFoodData;
 
 /**
  * 1. 毎日のマレー語データ管理
