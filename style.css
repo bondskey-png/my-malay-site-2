@@ -167,6 +167,7 @@ nav a:hover {
     opacity: 0.3;
     transform: scale(0.85);
     transition: opacity 0.8s ease, transform 0.8s ease; /* 透明度と拡大だけCSSで制御 */
+    position: relative;
 }
 
 .slide-item.center {
@@ -184,16 +185,24 @@ nav a:hover {
 
 .slide-text {
     position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 0;       /* 帯にするなら下ぴったり（0）に付けるのがおすすめです */
+    left: 0;         /* 左端から */
+    width: 100%;     /* 右端まで（幅100%） */
+    
     color: white;
-    background: rgba(0,0,0,0.5);
-    padding: 5px 15px;
-    border-radius: 20px;
+    background: rgba(0,0,0,0.6); /* 帯にするなら少し濃いめ（0.6）が締まります */
+    
+    padding: 5px 10px;        /* 上下15px、左右10pxの余白 */
+    text-align: center;       /* 文字は中央に寄せる */
+    
+    /* 帯状にするため、角丸（border-radius）は削除します */
+    
     font-size: 0.9rem;
-    opacity: 0;
+    opacity: 1;               /* 表示 */
     transition: 0.5s;
+    
+    z-index: 10;              /* 画像より前に出す */
+    box-sizing: border-box;  /* paddingを含めて100%にするおまじない */
 }
 
 
