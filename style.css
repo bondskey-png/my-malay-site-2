@@ -264,10 +264,75 @@ nav a:hover {
 
 /* フッターとSNS */
 footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 20px;
     text-align: center;
-    padding: 2rem;
-    background-color: #eee;
-    margin-top: 3rem;
+}
+
+.footer-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 区切り線 */
+.footer-divider {
+    border: 0;
+    border-top: 1px solid #555;
+    margin: 30px 0;
+}
+
+/* お役立ちリンクのタイトル */
+.useful-links h4 {
+    color: var(--primary-yellow);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+/* リンクを横並びにするレイアウト（Flexbox） */
+.link-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    text-align: left; /* リスト内は左寄せで見やすく */
+}
+
+.link-group h5 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #eee;
+    border-bottom: 1px solid var(--primary-yellow);
+    display: inline-block;
+}
+
+.link-group ul {
+    list-style: none;
+    padding: 0;
+}
+
+.link-group ul li {
+    margin: 8px 0;
+}
+
+.link-group ul li a {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.link-group ul li a:hover {
+    color: var(--primary-yellow);
+}
+
+/* スマホ表示の調整 */
+@media (max-width: 768px) {
+    .link-grid {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
 }
 
 .sns-btn {
