@@ -259,51 +259,14 @@
         <section id="places" class="page">
             <div class="section-title">
                 <h2>Visited Places</h2>
-                <p>マレーシア各地の魅力を、地図と一緒にご紹介します。</p>
+                <p>マレーシア各地の魅力を、スワイプできる写真と一緒にご紹介します。</p>
             </div>
 
-            <div class="places-grid">
-                <!-- スポット1: Petronas Twin Towers -->
-                <article class="place-card">
-                    <div class="place-image">
-                        <img src="https://i.ibb.co/PSSnLXM/IMG-3589.jpg" alt="Petronas Twin Towers">
-                    </div>
-                    <div class="place-info">
-                        <h3>クアラルンプール：Petronas Twin Towers</h3>
-                        <p>マレーシアの象徴。夜のライトアップは圧巻で、何度見ても飽きません。周辺のKLCC公園での散歩もおすすめ。</p>
-                        <div class="map-embed">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15935.19393138159!2d101.72954032624519!3d3.1478068381909092!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc37d12d669c1f%3A0x9e3afdd17c8a9056!2sPetronas%20Twin%20Towers!5e0!3m2!1sen!2sjp!4v1774730690982!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
-                    </div>
-                </article>
+            <div id="latest-place-container"></div>
 
-                <!-- スポット2: Sultan Salahuddin Abdul Aziz Shah Masjid -->
-                <article class="place-card">
-                    <div class="place-image">
-                        <img src="https://i.ibb.co/jPsk9H7q/IMG-5093.jpg" alt="Blue Mosque">
-                    </div>
-                    <div class="place-info">
-                        <h3>シャーアラム：Sultan Salahuddin Abdul Aziz Shah Masjid</h3>
-                        <p>世界的に有名な美しい青いドーム。内部の静寂と繊細なタイル装飾は、心から感動する美しさです。</p>
-                        <div class="map-embed">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15936.3490436643!2d101.49556380897697!3d3.0713585972588335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc527ec7366823%3A0xd59cd5f00940bc42!2sSultan%20Salahuddin%20Abdul%20Aziz%20Shah%20Masjid!5e0!3m2!1sen!2sjp!4v1774730853366!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- スポット3: The Shore Sky Tower -->
-                <article class="place-card">
-                    <div class="place-image">
-                        <img src="https://i.ibb.co/zW0xjP2w/IMG-3830.jpg" alt="The Shore Sky Tower">
-                    </div>
-                    <div class="place-info">
-                        <h3>マラッカ：The Shore Sky Tower</h3>
-                        <p>マラッカで一番高い場所。床がガラス張りのスカイデッキからは、歴史ある街並みとマラッカ海峡を一望でき、スリルと絶景を同時に楽しめます。</p>
-                        <div class="map-embed">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31894.485479318653!2d102.24174456805726!3d2.2248511053872697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d1ef9420baaaa9%3A0x98bd3f2b5aae1f30!2sThe%20Shore%20Sky%20Tower!5e0!3m2!1sen!2sjp!4v1774736109350!5m2!1sen!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
-                    </div>
-                </article>
+            <div class="archive-section">
+                <h3>Previous Places</h3>
+                <ul id="place-archive-list" class="archive-list"></ul>
             </div>
         </section>
 
@@ -412,6 +375,18 @@
     </footer>
 
     <script src="script.js" defer></script>
+
+    <div id="photo-modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+    
+        <button class="modal-prev" onclick="changeModalImg(-1)">&#10094;</button>
+    
+        <img id="modal-img" src="" alt="拡大画像">
+    
+        <button class="modal-next" onclick="changeModalImg(1)">&#10095;</button>
+    
+        <div id="modal-caption"></div>
+    </div>
     
 </body>
 

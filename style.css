@@ -501,6 +501,36 @@ footer {
     background: #eee;
 }
 
+/* スライダーのコンテナ */
+.place-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+    padding-bottom: 15px;
+    -webkit-overflow-scrolling: touch; /* iOSスワイプ改善 */
+}
+
+/* 各写真のサイズ */
+.place-slider img {
+    flex: 0 0 100%; /* 1枚ずつ表示 */
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    scroll-snap-align: start;
+    border-radius: 8px;
+    cursor: zoom-in;
+}
+
+/* スクロールバーのカスタマイズ（任意） */
+.place-slider::-webkit-scrollbar {
+    height: 6px;
+}
+.place-slider::-webkit-scrollbar-thumb {
+    background: #deb887;
+    border-radius: 10px;
+}
+
 /* 写真を入れる枠（コンテナ）の設定 */
 .food-image-container {
     position: relative;
@@ -696,4 +726,90 @@ footer {
 
 #phrase-list li:hover {
     background-color: #fffde7; /* ホバー時に少し色を変えて反応を出す */
+}
+
+/* 拡大表示用の背景（flexで中央揃え） */
+#photo-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000; /* 最前面に */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* より黒く */
+    align-items: center;
+    justify-content: center;
+    /* スマホのスワイプ操作のために touch-action を調整（任意） */
+    touch-action: pan-y; 
+}
+
+/* 拡大画像 */
+#photo-modal img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    transition: transform 0.3s ease; /* 切り替え時のアニメーション */
+}
+
+/* 矢印ボタンの設定を強化 */
+.modal-prev, .modal-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3000 !important; /* 画像（2000）より上に */
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    padding: 20px 15px;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* 画像自体のクリックで閉じないように調整（画像以外をクリックで閉じる場合） */
+#modal-img {
+    position: relative;
+    z-index: 2500;
+    pointer-events: auto; /* 画像へのクリックは有効に */
+}
+
+.modal-prev:hover, .modal-next:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.modal-prev { left: 10px; }
+.modal-next { right: 10px; }
+
+/* 閉じるボタン */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 35px;
+    cursor: pointer;
+    z-index: 2020;
+}
+.close-btn:hover { color: white; }
+
+/* キャプション（番号表示） */
+#modal-caption {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    background: rgba(0,0,0,0.5);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+/* スマホ表示の調整 */
+@media (max-width: 768px) {
+    .modal-prev, .modal-next {
+        font-size: 24px;
+        padding: 10px 5px;
+        background: rgba(255, 255, 255, 0.05); /* より薄く */
+    }
 }

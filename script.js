@@ -145,6 +145,168 @@ window.addEventListener('DOMContentLoaded', () => {
     updateMalaysiaClock(); // 時計を即座に表示
 });
 
+let allPlaces = [];
+
+// 場所データを表示する関数
+window.showPlace = function(index) {
+    const p = allPlaces[index];
+    const container = document.getElementById('latest-place-container');
+    
+    // 画像URLをカンマで分割
+    const images = p.images.split(',').map(url => url.trim());
+    const imagesHtml = images.map(url => 
+        `<img src="${url}" alt="${p.title}" onclick="openModal(this)">`
+    ).join('');
+
+    container.innerHTML = `
+        <article class="place-card">
+            <div class="place-slider">
+                ${imagesHtml}
+            </div>
+            <p style="text-align:center; font-size:0.8rem; color:#888;">← スワイプで写真を確認 →</p>
+            
+            <div class="place-info">
+                <span class="category">${p.category}</span>
+                <h3>${p.title}</h3>
+                <div class="food-text-content" style="white-space: pre-wrap;">${p.content}</div>
+                <div class="map-embed" style="margin-top:20px;">
+                    <iframe src="${p.mapUrl}" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </article>
+    `;
+};
+
+async function loadPlacesData() {
+    // 訪れた場所用のCSV URL（gidを変える）
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTeujd5X14hYw3qfi4_ZMbt3yeyrIrG1ALtVNAbL9ROfIamIB1P0BYFypM1t99SZ5SYjqA-Uf2B5mRi/pub?gid=1295074900&single=true&output=csv"; 
+
+    try {
+        const response = await fetch(csvUrl);
+        const csvText = await response.text();
+        const allData = parseComplexCSV(csvText); // 共通のパーサーを使用
+        
+        allPlaces = allData.slice(1).map(cols => ({
+            date: cols[0], category: cols[1], title: cols[2], 
+            content: cols[3], images: cols[4], mapUrl: cols[5]
+        }));
+
+        // 初期表示
+        showPlace(allPlaces.length - 1);
+
+        // リスト生成
+        const list = document.getElementById('place-archive-list');
+        allPlaces.forEach((p, i) => {
+            const li = document.createElement('li');
+            li.className = "archive-item";
+            li.onclick = () => showPlace(i);
+            li.innerHTML = `<span>${p.date}</span><strong>${p.title}</strong><span>${p.category}</span>`;
+            list.prepend(li);
+        });
+    } catch (e) { console.error(e); }
+}
+
+// 既存のDOMContentLoadedに追加
+document.addEventListener('DOMContentLoaded', () => {
+    loadFoodData();
+    loadPlacesData();
+});
+
+// モーダルギャラリー用の管理変数
+let currentGalleryImages = []; 
+let currentImageIndex = 0;
+
+// --- 1. 写真を拡大してギャラリーを開始する関数 ---
+window.openModal = function(clickedImg) {
+    const modal = document.getElementById('photo-modal');
+    if (!modal) return;
+
+    // 親コンテナ（記事の枠）を特定する
+    // 食べ物なら .food-card、場所なら .place-card 内の画像を集める
+    const card = clickedImg.closest('.food-card, .place-card');
+    
+    if (card) {
+        // カード内にある全ての <img> タグを取得（隠れている画像も含む）
+        const allImgs = Array.from(card.querySelectorAll('img'));
+        
+        // モーダル用の画像（矢印ボタンや閉じるボタンなど）は除外して、記事の写真だけを抽出
+        const galleryImgs = allImgs.filter(img => 
+            !img.closest('#photo-modal') && 
+            img.src && 
+            !img.src.includes('placeholder')
+        );
+
+        currentGalleryImages = galleryImgs.map(img => img.src);
+        currentImageIndex = currentGalleryImages.indexOf(clickedImg.src);
+    } else {
+        // 親が見つからない場合は単体
+        currentGalleryImages = [clickedImg.src];
+        currentImageIndex = 0;
+    }
+
+    // もしインデックスが見つからなかった場合の保険
+    if (currentImageIndex === -1) currentImageIndex = 0;
+
+    modal.style.display = "flex";
+    updateModalContent();
+};
+
+// --- 2. 表示内容の更新 ---
+function updateModalContent() {
+    const modalImg = document.getElementById('modal-img');
+    const caption = document.getElementById('modal-caption');
+    const prevBtn = document.querySelector('.modal-prev');
+    const nextBtn = document.querySelector('.modal-next');
+
+    if (!modalImg) return;
+
+    // フェードアウト効果（一瞬消して出す）
+    modalImg.style.opacity = 0;
+    
+    setTimeout(() => {
+        modalImg.src = currentGalleryImages[currentImageIndex];
+        modalImg.style.opacity = 1;
+        
+        if (caption) {
+            caption.innerText = `${currentImageIndex + 1} / ${currentGalleryImages.length}`;
+        }
+
+        // ボタンの表示制御
+        if (currentGalleryImages.length <= 1) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        } else {
+            // ループさせたい場合はここを常に 'block' にします
+            prevBtn.style.display = (currentImageIndex === 0) ? 'none' : 'block';
+            nextBtn.style.display = (currentImageIndex === currentGalleryImages.length - 1) ? 'none' : 'block';
+        }
+    }, 50);
+}
+
+// --- 3. 切り替え関数 ---
+window.changeModalImg = function(direction) {
+    const newIndex = currentImageIndex + direction;
+    if (newIndex >= 0 && newIndex < currentGalleryImages.length) {
+        currentImageIndex = newIndex;
+        updateModalContent();
+    }
+};
+
+// --- 4. 閉じる関数 ---
+window.closeModal = function() {
+    document.getElementById('photo-modal').style.display = "none";
+};
+
+// キーボード操作
+document.addEventListener('keydown', (e) => {
+    const modal = document.getElementById('photo-modal');
+    if (modal && modal.style.display === 'flex') {
+        if (e.key === 'ArrowLeft') changeModalImg(-1);
+        if (e.key === 'ArrowRight') changeModalImg(1);
+        if (e.key === 'Escape') closeModal();
+    }
+});
+
 // 写真切り替え関数（グローバル）
 // 1. グローバル変数でデータを保持
 let allPosts = [];
@@ -176,11 +338,26 @@ window.showPost = function(index, updateHash = true) {
         window.location.hash = `post-${index}`;
     }
 
+    // 1. 写真を拡大する関数
+    window.openModal = function(imgElement) {
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        modal.style.display = "flex"; // 中央揃えのためにflexを使用
+        modalImg.src = imgElement.src;
+    };
+
+    // 2. 拡大を閉じる関数
+    window.closeModal = function() {
+        document.getElementById('photo-modal').style.display = "none";
+    };
+
     const html = `
         <article class="food-card" id="current-view-post">
             <div class="food-image-container" id="latest-container">
-                <img src="${post.foodImg}" class="img-food" alt="料理" style="display: block; width: 100%; height: 100%; object-fit: cover;">
-                <img src="${post.shopImg}" class="img-shop" alt="外観" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                <img src="${post.foodImg}" class="img-food" alt="料理" onclick="openModal(this)" 
+                    style="display: block; width: 100%; height: 100%; object-fit: cover;">
+                <img src="${post.shopImg}" class="img-shop" alt="外観" onclick="openModal(this)" 
+                    style="display: none; width: 100%; height: 100%; object-fit: cover;">
                 <span class="price-tag">${post.price}</span>
                 <div class="photo-switcher">
                     <button onclick="switchPhoto('latest', 'main')" class="active">料理</button>
