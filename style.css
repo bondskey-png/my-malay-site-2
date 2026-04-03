@@ -523,6 +523,9 @@ footer {
     cursor: zoom-in;
 }
 
+@media (min-width: 769px) {
+    .place-slider img { height: 200px; }
+
 /* スクロールバーのカスタマイズ（任意） */
 .place-slider::-webkit-scrollbar {
     height: 6px;
