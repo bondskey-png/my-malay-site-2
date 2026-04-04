@@ -366,19 +366,28 @@ window.showPost = function(index, updateHash = true) {
             </div>
             <div class="food-info">
                 <span class="category">${post.category}</span>
-                <h3>${post.title}</h3>
+             <h3>${post.title}</h3>
                 <div class="food-text-content" style="white-space: pre-wrap; margin: 10px 0;">${post.content}</div>
-                <div class="restaurant-info">
-                    <a href="${post.mapUrl}" target="_blank" style="color:#d2a679; text-decoration:none; border:1px solid #ddd; padding:8px 15px; border-radius:5px; display:inline-block; margin:10px 0;">📍 Googleマップで確認</a>
+        
+                <div class="map-embed" style="margin-top:20px;">
+                    <iframe 
+                        src="${post.mapUrl}" 
+                        width="100%" 
+                        height="300" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
                 </div>
-                <div class="rating">オススメ度：${post.rating}</div>
-                
-                <div style="margin-top:20px; font-size:0.8rem; color:#888;">
-                    🔗 この記事のリンク: <input type="text" value="${window.location.href}" readonly 
-                        onclick="this.select(); document.execCommand('copy'); alert('リンクをコピーしました！');" 
-                        style="width:70%; border:1px solid #eee; padding:5px; cursor:pointer;">
-                </div>
-            </div>
+
+        <div class="rating" style="margin-top:15px;">オススメ度：${post.rating}</div>
+        
+        <div style="margin-top:20px; font-size:0.8rem; color:#888;">
+            🔗 この記事のリンク: <input type="text" value="${window.location.href}" readonly 
+                onclick="this.select(); document.execCommand('copy'); alert('リンクをコピーしました！');" 
+                style="width:70%; border:1px solid #eee; padding:5px; cursor:pointer;">
+        </div>
+    </div>
         </article>
     `;
     container.innerHTML = html;
