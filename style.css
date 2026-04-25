@@ -507,7 +507,7 @@ footer {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    gap: 10px;
+    gap: 0px;
     padding-bottom: 15px;
     -webkit-overflow-scrolling: touch; /* iOSスワイプ改善 */
 }
