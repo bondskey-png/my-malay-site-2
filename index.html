@@ -253,6 +253,11 @@
                     ここにある情報が、あなたのマレーシア移住への扉を開くきっかけになれば幸いです。
                 </p>
             </div>
+
+            <div id="map-container" style="margin: 40px 0;">
+                <h2 style="text-align: center; color: #555;">📍 Malaysia Exploration Map</h2>
+                <div id="map" style="width: 100%; height: 500px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"></div>
+            </div>
         </section>
 
         <!-- 訪れた場所ページ -->
@@ -374,7 +379,10 @@
         </div>
     </footer>
 
-    <script src="script.js" defer></script>
+
+    <script src="script.js"></script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiQxlUcO4iiV-Z9DuGzXZHGrS6Uprs1qs&callback=initMap" async defer></script>
 
     <div id="photo-modal">
         <span class="close-btn" onclick="closeModal()">&times;</span>

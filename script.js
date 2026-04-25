@@ -532,6 +532,79 @@ async function loadFoodData() {
 
 document.addEventListener('DOMContentLoaded', loadFoodData);
 
+let map;
+let markers = [];
+
+// 地図の初期化
+function initMap() {
+    // 初期表示：ダマンサラ・ジャヤ周辺（Sachiさんの活動拠点）
+    const center = { lat: 3.1258, lng: 101.6167 }; 
+    map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 11,
+        center: center,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: true
+    });
+
+    // データのプロット
+    // allPlaces と allPosts が読み込み済みであることを前提としています
+    plotMarkers(allPlaces, 'place');
+    plotMarkers(allPosts, 'food');
+}
+
+function plotMarkers(dataList, type) {
+    dataList.forEach((item, index) => {
+        if (!item.lat || !item.lng) return;
+
+        // ピンの色を分ける（場所は青、食べ物は赤など）
+        const markerColor = type === 'place' ? "blue" : "red";
+        const markerIcon = `http://maps.google.com/mapfiles/ms/icons/${markerColor}-dot.png`;
+
+        const marker = new google.maps.Marker({
+            position: { lat: parseFloat(item.lat), lng: parseFloat(item.lng) },
+            map: map,
+            title: item.name,
+            icon: markerIcon
+        });
+
+        // ピンをクリックした時の情報ウィンドウ（吹き出し）
+        const infoWindow = new google.maps.InfoWindow({
+            content: `
+                <div style="color: #333; padding: 5px;">
+                    <strong style="font-size: 1.1rem;">${item.name}</strong><br>
+                    <span style="color: #666; font-size: 0.8rem;">${item.title}</span><br>
+                    <button onclick="mapJumpToArticle('${type}', ${index})" 
+                            style="margin-top: 8px; background: #deb887; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                        記事を見る
+                    </button>
+                </div>
+            `
+        });
+
+        marker.addListener("click", () => {
+            // 他の開いているウィンドウを閉じる処理をここに入れると親切です
+            infoWindow.open(map, marker);
+        });
+
+        markers.push(marker);
+    });
+}
+
+// マップのボタンから各ページへジャンプする関数
+window.mapJumpToArticle = function(type, index) {
+    if (type === 'place') {
+        showPlace(index); // 既存の「訪れた場所」表示関数
+        showPage('place'); // ページ切り替え
+    } else {
+        showPost(index); // 既存の「食べた物」表示関数
+        showPage('food');
+    }
+    // 地図のセクションから離れて記事が見えるようにスクロール
+    const targetId = type === 'place' ? 'place-container' : 'food-container';
+    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
+};
+
 /**
  * 1. 毎日のマレー語データ管理
  */
@@ -675,7 +748,7 @@ function updateDailyPhrase(targetDate = null) {
 
         // 3. 「今日まで」のデータに絞り込む（未来のフレーズを除外）
         const dates = allDates.filter(d => d <= todayStr);
-        
+
         const currentIndex = dates.indexOf(today);
 
         const hasPrev = currentIndex > 0;
@@ -830,3 +903,5 @@ function initGA() {
     // ここに GA のタグ設置コードを記述できます
     
 }
+
+window.initMap = initMap;
