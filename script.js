@@ -147,11 +147,29 @@ window.addEventListener('DOMContentLoaded', () => {
 
 let allPlaces = [];
 
+function createNavHtml(currentIndex, totalCount, functionName) {
+    const hasPrev = currentIndex > 0;
+    const hasNext = currentIndex < totalCount - 1;
+
+    // 前後のインデックスを計算（Nextをクリックした時に +1 されるように）
+    return `
+        <div class="article-nav">
+            <button class="nav-btn" onclick="${functionName}(${currentIndex - 1})" ${!hasPrev ? 'disabled' : ''}>
+                &lt; Previous
+            </button>
+            <span style="font-size: 0.8rem; color: #888;">${currentIndex + 1} / ${totalCount}</span>
+            <button class="nav-btn" onclick="${functionName}(${currentIndex + 1})" ${!hasNext ? 'disabled' : ''}>
+                Next &gt;
+            </button>
+        </div>
+    `;
+}
+
 // 場所データを表示する関数
 window.showPlace = function(index) {
     const p = allPlaces[index];
     const container = document.getElementById('latest-place-container');
-    
+    const articleLink = window.location.origin + window.location.pathname + '#place-' + index;
     // 画像URLをカンマで分割
     const images = p.images.split(',').map(url => url.trim());
     const imagesHtml = images.map(url => 
@@ -172,9 +190,18 @@ window.showPlace = function(index) {
                 <div class="map-embed" style="margin-top:20px;">
                     <iframe src="${p.mapUrl}" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
+                <div style="margin-top:20px; font-size:0.8rem; color:#888;">
+                    🔗 この記事のリンク: <input type="text" value="${articleLink}" readonly 
+                        onclick="this.select(); document.execCommand('copy'); alert('リンクをコピーしました！');" 
+                        style="width:70%; border:1px solid #eee; padding:5px; cursor:pointer;">
+                </div>                
             </div>
         </article>
     `;
+    window.location.hash = `place-${index}`;
+
+    const navHtml = createNavHtml(index, allPlaces.length, 'showPlace');
+    container.innerHTML += navHtml;
 };
 
 async function loadPlacesData() {
@@ -380,21 +407,27 @@ window.showPost = function(index, updateHash = true) {
                     </iframe>
                 </div>
 
-        <div class="rating" style="margin-top:15px;">オススメ度：${post.rating}</div>
+                <div class="rating" style="margin-top:15px;">オススメ度：${post.rating}</div>
         
-        <div style="margin-top:20px; font-size:0.8rem; color:#888;">
-            🔗 この記事のリンク: <input type="text" value="${window.location.href}" readonly 
-                onclick="this.select(); document.execCommand('copy'); alert('リンクをコピーしました！');" 
-                style="width:70%; border:1px solid #eee; padding:5px; cursor:pointer;">
-        </div>
-    </div>
+                <div style="margin-top:20px; font-size:0.8rem; color:#888;">
+                    🔗 この記事のリンク: <input type="text" value="${window.location.href}" readonly 
+                        onclick="this.select(); document.execCommand('copy'); alert('リンクをコピーしました！');" 
+                        style="width:70%; border:1px solid #eee; padding:5px; cursor:pointer;">
+                </div>
+            </div>
         </article>
     `;
     container.innerHTML = html;
-    
+
+    const navHtml = createNavHtml(index, allPosts.length, 'showPost');
+    container.innerHTML += navHtml;
+
     // スムーズスクロール
     const targetY = container.getBoundingClientRect().top + window.pageYOffset - 20;
     window.scrollTo({ top: targetY, behavior: 'smooth' });
+
+
+
 };
 
 // 4. CSV解析（以前と同じ強力なもの）
@@ -504,7 +537,8 @@ document.addEventListener('DOMContentLoaded', loadFoodData);
  */
 // --- 1. 設定（一番上） ---
 const SHEET_ID = '1eGmjiAs4s1MXkCshg537MR1Vdjv232a5A10Jo9tlhUM'; 
-const TAB_NAME = 'phrase'; 
+const TAB_NAME = 'phrase';
+
 let dailyPhrases = {}; // 空のオブジェクトで初期化
 
 // --- 2. データ取得関数 ---
@@ -560,6 +594,8 @@ function updateDailyPhrase(targetDate = null) {
                 String(now.getDate()).padStart(2, '0');
     }
 
+    
+    
     let data = dailyPhrases[today];
     if (!data && !targetDate) {
         const dates = Object.keys(dailyPhrases).sort().reverse();
@@ -594,6 +630,74 @@ function updateDailyPhrase(targetDate = null) {
                 exampleContainer.appendChild(div);
             });
         }
+        
+        const existingShare = document.getElementById('malay-share-section');
+        if (existingShare) existingShare.remove();
+
+        const shareLink = window.location.origin + window.location.pathname + '#' + today;
+
+
+        const shareSection = document.createElement('div');
+        shareSection.id = 'malay-share-section';
+        shareSection.style.cssText = "margin-top:20px; padding-top:15px; border-top:1px dashed #ccc; text-align:left; width:100%;";
+        shareSection.innerHTML = `
+            <p style="font-size:0.7rem; color:#999; margin-bottom:8px;">🔗 このフレーズをシェアする</p>
+            <div style="display:flex; gap:5px;">
+                <input type="text" value="${shareLink}" readonly id="copy-url-malay"
+                    style="flex:1; border:1px solid #eee; padding:8px; border-radius:4px; font-size:0.75rem; background:#fdfdfd; color:#666; outline:none;">
+                <button onclick="copyToClipboard('copy-url-malay')" 
+                    style="background:#deb887; color:white; border:none; padding:0 12px; border-radius:4px; cursor:pointer; white-space:nowrap; font-size:0.8rem;">
+                    コピー
+                </button>
+            </div>
+        `;
+
+        const malayPage = document.getElementById('malay');
+        const allBtns = malayPage.querySelectorAll('button.btn');
+        let archiveBtn = Array.from(allBtns).find(b => b.getAttribute('onclick') === 'toggleArchive()');
+
+        if (malayPage && archiveBtn) {
+            archiveBtn.parentNode.insertBefore(shareSection, archiveBtn);
+        } else if (malayPage) {
+            malayPage.appendChild(shareSection);
+        }
+
+        const existingNav = document.getElementById('malay-nav');
+        if (existingNav) existingNav.remove();
+
+        const allDates = Object.keys(dailyPhrases).sort();
+        
+        // 2. 「今日」の日付（YYYY-MM-DD形式）を取得
+        const now = new Date();
+        const todayStr = now.getFullYear() + '-' + 
+                         String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                         String(now.getDate()).padStart(2, '0');
+
+        // 3. 「今日まで」のデータに絞り込む（未来のフレーズを除外）
+        const dates = allDates.filter(d => d <= todayStr);
+        
+        const currentIndex = dates.indexOf(today);
+
+        const hasPrev = currentIndex > 0;
+        const hasNext = currentIndex < dates.length - 1;
+
+        const navDiv = document.createElement('div');
+        navDiv.id = 'malay-nav';
+        navDiv.className = 'article-nav';
+        navDiv.style.cssText = "margin-bottom: 20px;";
+
+        navDiv.innerHTML = `
+        <button class="nav-btn" onclick="displaySpecificPhrase('${dates[currentIndex - 1]}')" ${!hasPrev ? 'disabled' : ''}>
+                &lt; Previous
+            </button>
+            <span style="font-size: 0.8rem; color: #888;">${currentIndex + 1} / ${dates.length}</span>
+            <button class="nav-btn" onclick="displaySpecificPhrase('${dates[currentIndex + 1]}')" ${!hasNext ? 'disabled' : ''}>
+                Next &gt;
+            </button>
+        `;
+
+        shareSection.after(navDiv);
+
         if (targetDate) showPage('malay');
     }
 }

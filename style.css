@@ -161,7 +161,7 @@ nav a:hover {
 }
 
 .slide-item {
-    width: 60vw; 
+    width: 100%; 
     flex-shrink: 0;
     margin: 0 15px;
     opacity: 0.3;
@@ -207,7 +207,7 @@ nav a:hover {
 
 
 /* スマホ用設定（768px以下）を一括管理 */
-@media (max-width: 768px) {
+@media (max-width: 60vw) {
     .slide-item { min-width: 85%; }
     .slide-item img { height: 250px; }
 
@@ -268,6 +268,48 @@ nav a:hover {
 
 .btn:hover {
     opacity: 0.8;
+}
+
+/* 前後ナビゲーションのコンテナ */
+.article-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px 0;
+}
+
+/* 矢印ボタン本体 */
+.nav-btn {
+    background: #deb887;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-btn:hover {
+    background: #c5a075;
+}
+
+.nav-btn:disabled {
+    background: #eee;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+/* モバイル用の調整 */
+@media (max-width: 768px) {
+    .nav-btn {
+        padding: 8px 15px;
+        font-size: 1rem;
+    }
 }
 
 /* フッターとSNS */
@@ -519,7 +561,6 @@ footer {
     height: 400px;
     object-fit: cover;
     scroll-snap-align: start;
-    border-radius: 8px;
     cursor: zoom-in;
 }
 
