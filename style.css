@@ -209,12 +209,12 @@ nav a:hover {
 /* スマホ用設定（768px以下）を一括管理 */
 @media (max-width: 60vw) {
     .slide-item { min-width: 85%; }
-    .slide-item img { height: 250px; }
+    .slide-item img { height: 100px; }
 
 
     /* スマホ用の高さ調整 */
     .mySlides img {
-        height: 250px;
+        height: 100px;
     }
 
     /* 1. スライドショーの外枠自体の左右余白をリセット */
