@@ -215,8 +215,10 @@ async function loadPlacesData() {
         
         allPlaces = allData.slice(1).map(cols => ({
             date: cols[0], category: cols[1], title: cols[2], 
-            content: cols[3], images: cols[4], mapUrl: cols[5]
+            content: cols[3], images: cols[4], mapUrl: cols[5], name: cols[6], lat: cols[7], lng: cols[8]
         }));
+
+        plotMarkers(allPlaces, 'place');
 
         // 初期表示
         showPlace(allPlaces.length - 1);
@@ -498,8 +500,10 @@ async function loadFoodData() {
         allPosts = allData.slice(1).filter(cols => cols.length >= 6).map(cols => ({
             date: cols[0], category: cols[1], title: cols[2], content: cols[3],
             price: cols[4], foodImg: cols[5].trim(), shopImg: cols[6].trim(),
-            mapUrl: cols[7].trim(), rating: cols[8]
+            mapUrl: cols[7].trim(), rating: cols[8], name: cols[9], lat: Number(cols[10]), lng: Number(cols[11])
         }));
+
+        plotMarkers(allPosts, 'food');
 
         // 初期表示（最新記事）
         showPost(allPosts.length - 1);
@@ -537,73 +541,95 @@ let markers = [];
 
 // 地図の初期化
 function initMap() {
-    // 初期表示：ダマンサラ・ジャヤ周辺（Sachiさんの活動拠点）
-    const center = { lat: 3.1258, lng: 101.6167 }; 
+    const center = { lat: 3.1258, lng: 101.6167 };
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 11,
-        center: center,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: true
+        center: center
     });
 
-    // データのプロット
-    // allPlaces と allPosts が読み込み済みであることを前提としています
+    if (allPlaces.length > 0 || allPosts.length > 0) {
+        renderMapMarkers();
+    }
+}
+
+function renderMapMarkers() {
+    if (!map) return; // 地図がまだなければ何もしない
     plotMarkers(allPlaces, 'place');
     plotMarkers(allPosts, 'food');
 }
 
 function plotMarkers(dataList, type) {
-    dataList.forEach((item, index) => {
-        if (!item.lat || !item.lng) return;
+    const popup = document.getElementById('custom-popup');
+    const pImg = document.getElementById('popup-img');
+    const pName = document.getElementById('popup-name');
+    const pTitle = document.getElementById('popup-title');
 
-        // ピンの色を分ける（場所は青、食べ物は赤など）
-        const markerColor = type === 'place' ? "blue" : "red";
-        const markerIcon = `http://maps.google.com/mapfiles/ms/icons/${markerColor}-dot.png`;
+    let mouseX = 0;
+    let mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+
+    dataList.forEach((item, index) => {
+        const iconUrl = type === 'food' 
+            ? "http://maps.google.com/mapfiles/ms/icons/red-dot.png" 
+            : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
 
         const marker = new google.maps.Marker({
             position: { lat: parseFloat(item.lat), lng: parseFloat(item.lng) },
             map: map,
-            title: item.name,
-            icon: markerIcon
+            icon: iconUrl  // ここで色を指定
         });
 
-        // ピンをクリックした時の情報ウィンドウ（吹き出し）
-        const infoWindow = new google.maps.InfoWindow({
-            content: `
-                <div style="color: #333; padding: 5px;">
-                    <strong style="font-size: 1.1rem;">${item.name}</strong><br>
-                    <span style="color: #666; font-size: 0.8rem;">${item.title}</span><br>
-                    <button onclick="mapJumpToArticle('${type}', ${index})" 
-                            style="margin-top: 8px; background: #deb887; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
-                        記事を見る
-                    </button>
-                </div>
-            `
+        // マウスがピンに乗った時
+        marker.addListener("mouseover", (event) => {
+            const imageUrl = type === 'food' ? item.foodImg : item.shopImg;
+            pImg.src = imageUrl || 'https://placehold.jp/150x150.png?text=No%20Image';
+            pName.textContent = item.name || 'No Name';
+            pTitle.textContent = item.title;
+            
+            popup.style.display = 'flex';
+            popup.style.left = (mouseX + 15) + 'px';
+            popup.style.top = (mouseY - 50) + 'px';
         });
 
+        // マウスがピンの上を動いている時（ポップアップをカーソルに追従させる）
+        marker.addListener("mousemove", () => {
+            // マウスの現在位置（画面上の座標）を取得してポップアップをずらす
+            popup.style.left = (mouseX + 15) + 'px';
+            popup.style.top = (mouseY - 50) + 'px';
+        });
+
+        // マウスが離れた時
+        marker.addListener("mouseout", () => {
+            popup.style.display = 'none';
+        });
+
+        // クリックでジャンプ
         marker.addListener("click", () => {
-            // 他の開いているウィンドウを閉じる処理をここに入れると親切です
-            infoWindow.open(map, marker);
+            mapJumpToArticle(type, index);
         });
-
-        markers.push(marker);
     });
 }
 
-// マップのボタンから各ページへジャンプする関数
-window.mapJumpToArticle = function(type, index) {
+function mapJumpToArticle(type, index) {
+    console.log("Jumping to:", type, index);
     if (type === 'place') {
-        showPlace(index); // 既存の「訪れた場所」表示関数
-        showPage('place'); // ページ切り替え
+        showPlace(index);
+        showPage('place');
     } else {
-        showPost(index); // 既存の「食べた物」表示関数
+        showPost(index);
         showPage('food');
     }
-    // 地図のセクションから離れて記事が見えるようにスクロール
+    // スクロール処理
     const targetId = type === 'place' ? 'place-container' : 'food-container';
-    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
-};
+    const target = document.getElementById(targetId);
+    if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+    }
+}
 
 /**
  * 1. 毎日のマレー語データ管理
@@ -903,5 +929,27 @@ function initGA() {
     // ここに GA のタグ設置コードを記述できます
     
 }
+
+
+async function loadMap() {
+    // google が定義されるまで少し待機するか、チェックを入れる
+    if (typeof google === 'undefined' || !google.maps) {
+        console.log("Waiting for Google Maps API...");
+        // 0.5秒後に再試行
+        setTimeout(loadMap, 500);
+        return;
+    }
+
+    try {
+        const { Map } = await google.maps.importLibrary("maps");
+        // すでに定義済みの initMap を実行
+        initMap(); 
+    } catch (error) {
+        console.error("Google Maps load error:", error);
+    }
+}
+
+// 実行
+loadMap();
 
 window.initMap = initMap;
