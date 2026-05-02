@@ -211,7 +211,7 @@ nav a:hover {
     .slide-item { min-width: 85%; }
 
     .slide-item img {
-        height: 250px; /* ここを希望の高さ（半分の値）に変更 */
+        height: 50px; /* ここを希望の高さ（半分の値）に変更 */
         object-fit: cover;
     }
 

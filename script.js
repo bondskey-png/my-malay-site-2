@@ -169,7 +169,7 @@ function createNavHtml(currentIndex, totalCount, functionName) {
 window.showPlace = function(index) {
     const p = allPlaces[index];
     const container = document.getElementById('latest-place-container');
-    const articleLink = window.location.origin + window.location.pathname + '#place-' + index;
+    const articleLink = `${window.location.origin}${window.location.pathname}#post-${index}`;
     // 画像URLをカンマで分割
     const images = p.images.split(',').map(url => url.trim());
     const imagesHtml = images.map(url => 
@@ -910,6 +910,22 @@ window.addEventListener('DOMContentLoaded', async () => {
         updateDailyPhrase(hash);
     } else {
         updateDailyPhrase();
+    }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#post-')) {
+        // ハッシュからインデックス番号を取得（例: #post-2 -> 2）
+        const index = parseInt(hash.replace('#post-', ''));
+        
+        // 記事を表示させる既存の関数を呼び出す
+        // 例: showArticle(index); や updateSlides(index); など
+        if (!isNaN(index)) {
+            // ここに、指定したインデックスの記事を表示するあなたの関数を入れてください
+            showPost(index); 
+            showPage(index); 
+        }
     }
 });
 
