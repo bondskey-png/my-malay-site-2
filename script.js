@@ -560,54 +560,76 @@ function renderMapMarkers() {
 
 function plotMarkers(dataList, type) {
     const popup = document.getElementById('custom-popup');
-    const pImg = document.getElementById('popup-img');
-    const pName = document.getElementById('popup-name');
-    const pTitle = document.getElementById('popup-title');
-
-    let mouseX = 0;
-    let mouseY = 0;
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-
 
     dataList.forEach((item, index) => {
-        const iconUrl = type === 'food' 
-            ? "http://maps.google.com/mapfiles/ms/icons/red-dot.png" 
-            : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+        // B列（category）が「エリア」という文字列ならラベル表示にする
+        const isArea = (item.category === 'エリア');
+        const latLng = { lat: parseFloat(item.lat), lng: parseFloat(item.lng) };
 
-        const marker = new google.maps.Marker({
-            position: { lat: parseFloat(item.lat), lng: parseFloat(item.lng) },
-            map: map,
-            icon: iconUrl  // ここで色を指定
-        });
+        const markerOptions = {
+            position: latLng,
+            map: map
+        };
 
-        // マウスがピンに乗った時
+        if (isArea) {
+            // 【エリア表示】ピンを透明（サイズ0）にして、名前を大きく表示
+            markerOptions.icon = {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 0
+            };
+            markerOptions.label = {
+                text: item.name,
+                color: '#2c3e50',   // 落ち着いた濃紺
+                fontSize: '15px',
+                fontWeight: 'bold'
+            };
+
+            const imageUrl = type === 'food' ? item.foodImg : item.shopImg;
+            const contentString = `
+                <div style="text-align:center; width:120px;">
+                    <img src="${imageUrl || 'https://placehold.jp/100x100.png'}" style="width:100%; border-radius:4px;">
+                    <div style="font-size:12px; font-weight:bold; margin-top:5px;">${item.name}</div>
+                </div>`;
+
+            const infoWindow = new google.maps.InfoWindow({
+                content: contentString,
+                disableAutoPan: true // 勝手に地図が動かないようにする
+            });
+
+            // 設置と同時に開く
+            infoWindow.open(map);
+            
+            // 地名（透明なピン）を作って、クリックで記事へ飛べるようにする
+            const areaMarker = new google.maps.Marker(markerOptions);
+            areaMarker.addListener("click", () => mapJumpToArticle(type, index));
+
+        } else {
+            // 【スポット表示】通常のピンを表示（foodは赤、placeは青）
+            markerOptions.icon = type === 'food' 
+                ? "http://maps.google.com/mapfiles/ms/icons/red-dot.png" 
+                : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+            
+        }
+
+        const marker = new google.maps.Marker(markerOptions);
+
+        // --- マウスホバーで大きな写真が出るイベントは共通 ---
         marker.addListener("mouseover", (event) => {
             const imageUrl = type === 'food' ? item.foodImg : item.shopImg;
-            pImg.src = imageUrl || 'https://placehold.jp/150x150.png?text=No%20Image';
-            pName.textContent = item.name || 'No Name';
-            pTitle.textContent = item.title;
-            
+            document.getElementById('popup-img').src = imageUrl || 'https://placehold.jp/150x150.png?text=No%20Image';
+            document.getElementById('popup-name').textContent = item.name;
+            document.getElementById('popup-title').textContent = item.title;
+
             popup.style.display = 'flex';
-            popup.style.left = (mouseX + 15) + 'px';
-            popup.style.top = (mouseY - 50) + 'px';
+            popup.style.left = (event.domEvent.clientX + 20) + 'px';
+            popup.style.top = (event.domEvent.clientY + 20) + 'px';
+            
         });
 
-        // マウスがピンの上を動いている時（ポップアップをカーソルに追従させる）
-        marker.addListener("mousemove", () => {
-            // マウスの現在位置（画面上の座標）を取得してポップアップをずらす
-            popup.style.left = (mouseX + 15) + 'px';
-            popup.style.top = (mouseY - 50) + 'px';
-        });
-
-        // マウスが離れた時
         marker.addListener("mouseout", () => {
             popup.style.display = 'none';
         });
 
-        // クリックでジャンプ
         marker.addListener("click", () => {
             mapJumpToArticle(type, index);
         });

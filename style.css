@@ -209,20 +209,17 @@ nav a:hover {
 /* スマホ用設定（768px以下）を一括管理 */
 @media (max-width: 60vw) {
     .slide-item { min-width: 85%; }
-    .slide-item img { height: 100px; }
 
-
-    /* スマホ用の高さ調整 */
-    .mySlides img {
-        height: 100px;
+    .slide-item img {
+        height: 250px; /* ここを希望の高さ（半分の値）に変更 */
+        object-fit: cover;
     }
 
-    /* 1. スライドショーの外枠自体の左右余白をリセット */
     .slideshow-container {
-        width: 100vw;       /* 画面の横幅いっぱいに指定 */
-        margin-left: calc(-50vw + 50%); /* 親要素のpaddingを無視して画面端まで広げる裏技 */
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
         margin-right: calc(-50vw + 50%);
-        padding: 0;         /* 内部の余白もゼロに */
+        padding: 0;
     }
 }
 
@@ -290,7 +287,7 @@ nav a:hover {
     padding: 10px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    z-index: 999999 !important; /* 地図やヘッダーより上に */
+    z-index: 9999 !important; /* 地図やヘッダーより上に */
     pointer-events: none;
     align-items: center;
     gap: 15px;
@@ -299,6 +296,7 @@ nav a:hover {
     left: 0; /* JSで上書きされる前の初期値 */
     top: 0;
 }
+
 
 #popup-img {
     width: 110px !important; /* 写真を大きく固定 */
