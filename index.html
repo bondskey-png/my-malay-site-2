@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="マレーシア移住に興味があるあなたへ、現地のリアルな空気をお届けします。">
     <title>Jom Malaysia! - マレーシア移住への道</title>
     <!-- Google Fonts: 親しみやすい丸ゴシック系 -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <!-- Google Analytics (タグ設置用のプレースホルダー) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P8PF1PS3ZE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-P8PF1PS3ZE');
+    </script>
     <!-- <script async src="https://www.googletagmanager.com"></script> -->
 </head>
+
 <body>
 
     <!-- ヘッダー：ナビゲーション -->
     <header>
         <div class="logo">Jom Malaysia!</div>
-         <!-- スマホ用メニューボタン -->
-         <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-         <nav id="main-nav">
+        <!-- スマホ用メニューボタン -->
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <nav id="main-nav">
             <ul>
                 <li><a href="#" onclick="showPage('home')">トップ</a></li>
                 <li><a href="#" onclick="showPage('places')">訪れた場所</a></li>
@@ -31,197 +42,198 @@
         <!-- トップページ -->
         <section id="home" class="page active">
             <div class="hero">
-              <!-- スライドショーエリア -->
-              <div class="slideshow-container">
-                <div class="slides-wrapper" id="slides-wrapper">
-                  <!-- 写真1 (ImgBBの直リンクに差し替えてください) -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/0Rm6MZx9/BFB01-D0-B-7-C7-C-40-F0-91-F2-0-AB7-F3204-FF3.jpg" style="width:100%">
-                      <div class="slide-text">Petaling Jaya</div>
-                  </div>
+                <!-- スライドショーエリア -->
+                <div class="slideshow-container">
+                    <div class="slides-wrapper" id="slides-wrapper">
+                        <!-- 写真1 (ImgBBの直リンクに差し替えてください) -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/0Rm6MZx9/BFB01-D0-B-7-C7-C-40-F0-91-F2-0-AB7-F3204-FF3.jpg"
+                                style="width:100%">
+                            <div class="slide-text">Petaling Jaya</div>
+                        </div>
 
-                  <!-- 写真2 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/kgCrTdb8/IMG-1369.jpg" style="width:100%">
-                      <div class="slide-text">Pantai Batu Pelanduk</div>
-                  </div>
+                        <!-- 写真2 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/kgCrTdb8/IMG-1369.jpg" style="width:100%">
+                            <div class="slide-text">Pantai Batu Pelanduk</div>
+                        </div>
 
-                  <!-- 写真3 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/VWGs0jnr/IMG-0450.jpg" style="width:100%">
-                      <div class="slide-text">Chew Jetty Penang</div>
-                  </div> 
+                        <!-- 写真3 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/VWGs0jnr/IMG-0450.jpg" style="width:100%">
+                            <div class="slide-text">Chew Jetty Penang</div>
+                        </div>
 
-                  <!-- 写真4 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/4g5K5VV1/IMG-1449.jpg" style="width:100%">
-                      <div class="slide-text">Kuantan Town</div>
-                  </div> 
+                        <!-- 写真4 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/4g5K5VV1/IMG-1449.jpg" style="width:100%">
+                            <div class="slide-text">Kuantan Town</div>
+                        </div>
 
-                  <!-- 写真5 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/jkL1nn6w/IMG-4434.jpg" style="width:100%">
-                      <div class="slide-text">Ara Damansara</div>
-                  </div>
+                        <!-- 写真5 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/jkL1nn6w/IMG-4434.jpg" style="width:100%">
+                            <div class="slide-text">Ara Damansara</div>
+                        </div>
 
-                  <!-- 写真6 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/N61DJSYs/IMG-1665.jpg" style="width:100%">
-                      <div class="slide-text">Sungai Pandan Waterfall</div>
-                  </div> 
+                        <!-- 写真6 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/N61DJSYs/IMG-1665.jpg" style="width:100%">
+                            <div class="slide-text">Sungai Pandan Waterfall</div>
+                        </div>
 
-                  <!-- 写真7 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/hRWW6XV1/IMG-0545.jpg" style="width:100%">
-                      <div class="slide-text">Ferringhi beach</div>
-                  </div> 
+                        <!-- 写真7 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/hRWW6XV1/IMG-0545.jpg" style="width:100%">
+                            <div class="slide-text">Ferringhi beach</div>
+                        </div>
 
-                  <!-- 写真8 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/Zq4hGXw/IMG-1025.jpg" style="width:100%">
-                      <div class="slide-text">Min House Camp</div>
-                  </div> 
-                
-                  <!-- 写真9 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/0p93JdTM/IMG-4928.jpg" style="width:100%">
-                      <div class="slide-text">Subang Jaya</div>
-                  </div>
+                        <!-- 写真8 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/Zq4hGXw/IMG-1025.jpg" style="width:100%">
+                            <div class="slide-text">Min House Camp</div>
+                        </div>
 
-                  <!-- 写真10 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/rK17BpTM/IMG-1142.jpg" style="width:100%">
-                      <div class="slide-text">Terengganu Drawbridge</div>
-                  </div>
+                        <!-- 写真9 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/0p93JdTM/IMG-4928.jpg" style="width:100%">
+                            <div class="slide-text">Subang Jaya</div>
+                        </div>
 
-                  <!-- 写真11 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/3YPCyCQN/IMG-1638.jpg" style="width:100%">
-                      <div class="slide-text">Berjaya Megamall Kuantan</div>
-                  </div>
+                        <!-- 写真10 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/rK17BpTM/IMG-1142.jpg" style="width:100%">
+                            <div class="slide-text">Terengganu Drawbridge</div>
+                        </div>
 
-                  <!-- 写真12 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/SwsCR84J/IMG-0877.jpg" style="width:100%">
-                      <div class="slide-text">Pantai Cahaya Bulan</div>
-                  </div>
+                        <!-- 写真11 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/3YPCyCQN/IMG-1638.jpg" style="width:100%">
+                            <div class="slide-text">Berjaya Megamall Kuantan</div>
+                        </div>
 
-                  <!-- 写真13 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/rDfTVsN/IMG-2554.jpg" style="width:100%">
-                      <div class="slide-text">Petaling Jaya</div>
-                  </div>
+                        <!-- 写真12 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/SwsCR84J/IMG-0877.jpg" style="width:100%">
+                            <div class="slide-text">Pantai Cahaya Bulan</div>
+                        </div>
 
-                  <!-- 写真14 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/CKYgHRnd/IMG-1321.jpg" style="width:100%">
-                      <div class="slide-text">Muzium Negeri Terrengganu</div>
-                  </div>
+                        <!-- 写真13 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/rDfTVsN/IMG-2554.jpg" style="width:100%">
+                            <div class="slide-text">Petaling Jaya</div>
+                        </div>
 
-                  <!-- 写真15 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/RpsxN3Fj/IMG-0415.jpg" style="width:100%">
-                      <div class="slide-text">Penang Street Art</div>
-                  </div>
+                        <!-- 写真14 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/CKYgHRnd/IMG-1321.jpg" style="width:100%">
+                            <div class="slide-text">Muzium Negeri Terrengganu</div>
+                        </div>
 
-                  <!-- 写真16 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/hxdGKNdm/IMG-1121.jpg" style="width:100%">
-                      <div class="slide-text">MR Celup Tepung Station</div>
-                  </div>
+                        <!-- 写真15 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/RpsxN3Fj/IMG-0415.jpg" style="width:100%">
+                            <div class="slide-text">Penang Street Art</div>
+                        </div>
 
-                  <!-- 写真17 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/5X2rv2vm/IMG-4845.jpg" style="width:100%">
-                      <div class="slide-text">Ara Damansara</div>
-                  </div>
+                        <!-- 写真16 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/hxdGKNdm/IMG-1121.jpg" style="width:100%">
+                            <div class="slide-text">MR Celup Tepung Station</div>
+                        </div>
 
-                  <!-- 写真18 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/7dxv6bVD/IMG-1559.jpg" style="width:100%">
-                      <div class="slide-text">Tasik Taman Bandar</div>
-                  </div>
+                        <!-- 写真17 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/5X2rv2vm/IMG-4845.jpg" style="width:100%">
+                            <div class="slide-text">Ara Damansara</div>
+                        </div>
 
-                  <!-- 写真19 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/MkJgS718/IMG-1372.jpg" style="width:100%">
-                      <div class="slide-text">Pantai Batu Pelanduk</div>
-                  </div>
+                        <!-- 写真18 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/7dxv6bVD/IMG-1559.jpg" style="width:100%">
+                            <div class="slide-text">Tasik Taman Bandar</div>
+                        </div>
 
-                  <!-- 写真20 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/C3CMd2mv/IMG-4920.jpg" style="width:100%">
-                      <div class="slide-text">Empire Shopping Gallery</div>
-                  </div>
+                        <!-- 写真19 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/MkJgS718/IMG-1372.jpg" style="width:100%">
+                            <div class="slide-text">Pantai Batu Pelanduk</div>
+                        </div>
 
-                  <!-- 写真21 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/PvgNPVYC/IMG-1184.jpg" style="width:100%">
-                      <div class="slide-text">Pantai Batu Buruk</div>
-                  </div>
+                        <!-- 写真20 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/C3CMd2mv/IMG-4920.jpg" style="width:100%">
+                            <div class="slide-text">Empire Shopping Gallery</div>
+                        </div>
 
-                  <!-- 写真22 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/wjnN6Kv/IMG-1633.jpg" style="width:100%">
-                      <div class="slide-text">Esplanade Kuantan</div>
-                  </div>
+                        <!-- 写真21 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/PvgNPVYC/IMG-1184.jpg" style="width:100%">
+                            <div class="slide-text">Pantai Batu Buruk</div>
+                        </div>
 
-                  <!-- 写真23 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/0VZwszbs/IMG-4919.jpg" style="width:100%">
-                      <div class="slide-text">Subang Jaya</div>
-                  </div>
+                        <!-- 写真22 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/wjnN6Kv/IMG-1633.jpg" style="width:100%">
+                            <div class="slide-text">Esplanade Kuantan</div>
+                        </div>
 
-                  <!-- 写真24 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/1GYDkFDs/IMG-1612.jpg" style="width:100%">
-                      <div class="slide-text">Taman Gelora</div>
-                  </div>
+                        <!-- 写真23 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/0VZwszbs/IMG-4919.jpg" style="width:100%">
+                            <div class="slide-text">Subang Jaya</div>
+                        </div>
 
-                  <!-- 写真25 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/2YgY7VvY/IMG-1473.jpg" style="width:100%">
-                      <div class="slide-text">Pantai Teluk Cempedak</div>
-                  </div>
+                        <!-- 写真24 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/1GYDkFDs/IMG-1612.jpg" style="width:100%">
+                            <div class="slide-text">Taman Gelora</div>
+                        </div>
 
-                  <!-- 写真26 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/5WJycWJf/IMG-4003.jpg" style="width:100%">
-                      <div class="slide-text">Taman Tasik Shah Alam</div>
-                  </div>
+                        <!-- 写真25 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/2YgY7VvY/IMG-1473.jpg" style="width:100%">
+                            <div class="slide-text">Pantai Teluk Cempedak</div>
+                        </div>
 
-                  <!-- 写真27 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/bg2DjyXv/IMG-1639.jpg" style="width:100%">
-                      <div class="slide-text">Bazar Serambi Teruntum</div>
-                  </div>
+                        <!-- 写真26 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/5WJycWJf/IMG-4003.jpg" style="width:100%">
+                            <div class="slide-text">Taman Tasik Shah Alam</div>
+                        </div>
 
-                  <!-- 写真28 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/GvVbp1bk/IMG-0530.jpg" style="width:100%">
-                      <div class="slide-text">Ferringhi Beach</div>
-                  </div>
+                        <!-- 写真27 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/bg2DjyXv/IMG-1639.jpg" style="width:100%">
+                            <div class="slide-text">Bazar Serambi Teruntum</div>
+                        </div>
 
-                  <!-- 写真29 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/4ZmVtNkx/IMG-5740.jpg" style="width:100%">
-                      <div class="slide-text">Taman Tasik Titiwangsa</div>
-                  </div>
+                        <!-- 写真28 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/GvVbp1bk/IMG-0530.jpg" style="width:100%">
+                            <div class="slide-text">Ferringhi Beach</div>
+                        </div>
 
-                  <!-- 写真30 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/1J7mZxmQ/IMG-4921.jpg" style="width:100%">
-                      <div class="slide-text">Empire Shopping Gallery</div>
-                  </div>
+                        <!-- 写真29 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/4ZmVtNkx/IMG-5740.jpg" style="width:100%">
+                            <div class="slide-text">Taman Tasik Titiwangsa</div>
+                        </div>
 
-                  <!-- 写真31 -->
-                  <div class="slide-item">
-                      <img src="https://i.ibb.co/gLWHzM7x/IMG-4893.jpg" style="width:100%">
-                      <div class="slide-text">Subang Jaya</div>
-                  </div>
+                        <!-- 写真30 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/1J7mZxmQ/IMG-4921.jpg" style="width:100%">
+                            <div class="slide-text">Empire Shopping Gallery</div>
+                        </div>
 
-              </div>
-            </div>
+                        <!-- 写真31 -->
+                        <div class="slide-item">
+                            <img src="https://i.ibb.co/gLWHzM7x/IMG-4893.jpg" style="width:100%">
+                            <div class="slide-text">Subang Jaya</div>
+                        </div>
+
+                    </div>
+                </div>
 
                 <h1>Selamat Datang! (ようこそ)</h1>
                 <p>マレーシア移住に興味があるあなたへ、現地のリアルな空気をお届けします。</p>
@@ -256,12 +268,15 @@
 
             <div id="map-container" style="margin: 40px 0;">
                 <h2 style="text-align: center; color: #555;">📍 Malaysia Exploration Map</h2>
-                
 
-                
-                <div id="map" style="width: 100%; height: 500px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"></div>
-                
-                <div id="map-container" style="position: relative;"> <div id="map" style="width: 100%; height: 500px;"></div>
+
+
+                <div id="map"
+                    style="width: 100%; height: 500px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                </div>
+
+                <div id="map-container" style="position: relative;">
+                    <div id="map" style="width: 100%; height: 500px;"></div>
 
                     <div id="map-hover-popup" class="map-tooltip">
                         <img src="" alt="shop image" class="tooltip-img">
@@ -315,56 +330,58 @@
                     <div class="archive-section">
                         <h4>過去のグルメ記事一覧</h4>
                         <ul id="food-archive-list" class="archive-list">
-                            </ul>
+                        </ul>
                     </div>
                 </section>
-            </div>    
+            </div>
         </section>
-        
+
         <section id="malay" class="page">
-          <!-- マレー語ページ内の修正箇所 -->
-          <div class="phrase-card">
+            <!-- マレー語ページ内の修正箇所 -->
+            <div class="phrase-card">
 
-            <div class="phrase-header">
-                <span class="pronunciation"></span> <!-- JSで注入 -->
-                <h2 id="today-phrase"></h2> <!-- JSで注入 -->
-                <p class="meaning"></p> <!-- JSで注入 -->
+                <div class="phrase-header">
+                    <span class="pronunciation"></span> <!-- JSで注入 -->
+                    <h2 id="today-phrase"></h2> <!-- JSで注入 -->
+                    <p class="meaning"></p> <!-- JSで注入 -->
+                </div>
+
+                <div class="nuance-box">
+                    <h4>【ニュアンス解説】</h4>
+                    <p class="nuance-text"></p> <!-- JSで注入 -->
+                </div>
+
+                <div class="example-box">
+                    <h4>【例文】</h4>
+                    <div id="example-list"></div> <!-- JSで注入 -->
+                </div>
+
+                <div class="tips">
+                    <p>💡 <strong>ワンポイントアドバイス</strong><br>
+                        <span class="tips-text"></span>
+                    </p> <!-- JSで注入 -->
+                </div>
+
+                <button class="btn" onclick="toggleArchive()">過去のフレーズ一覧へ</button>
             </div>
 
-            <div class="nuance-box">
-                <h4>【ニュアンス解説】</h4>
-                <p class="nuance-text"></p> <!-- JSで注入 -->
+            <div id="archive" class="hidden">
+                <h3>過去のフレーズ一覧</h3>
+                <ul id="phrase-list"></ul>
             </div>
+        </section>
 
-            <div class="example-box">
-                <h4>【例文】</h4>
-                <div id="example-list"></div> <!-- JSで注入 -->
-            </div>  
-        
-            <div class="tips">
-                <p>💡 <strong>ワンポイントアドバイス</strong><br>
-                <span class="tips-text"></span></p> <!-- JSで注入 -->
-            </div>
+        </section>
 
-            <button class="btn" onclick="toggleArchive()">過去のフレーズ一覧へ</button>
-          </div>
-    
-          <div id="archive" class="hidden">
-              <h3>過去のフレーズ一覧</h3>
-              <ul id="phrase-list"></ul>
-          </div>
-   </section>
-
-</section>
-   
-</main>
+    </main>
 
     <!-- フッター：SNS連携 -->
     <footer>
         <div class="footer-container">
             <div class="sns-links">
                 <p>Share on:</p>
-                <a href="https://www.instagram.com/bonds_key?igsh=NTc4MTIwNjQ2YQ==" class="sns-btn ig-btn" target="_blank">Instagram</a>
+                <a href="https://www.instagram.com/bonds_key?igsh=NTc4MTIwNjQ2YQ==" class="sns-btn ig-btn"
+                    target="_blank">Instagram</a>
             </div>
 
             <hr class="footer-divider">
@@ -375,7 +392,8 @@
                     <div class="link-group">
                         <h5>公的機関</h5>
                         <ul>
-                            <li><a href="https://www.my.emb-japan.go.jp/itprtop_ja/index.html" target="_blank">在マレーシア日本国大使館</a></li>
+                            <li><a href="https://www.my.emb-japan.go.jp/itprtop_ja/index.html"
+                                    target="_blank">在マレーシア日本国大使館</a></li>
                             <li><a href="https://www.imi.gov.my/" target="_blank">マレーシア入国管理局</a></li>
                         </ul>
                     </div>
@@ -406,7 +424,7 @@
     <script src="script.js"></script>
 
     <script>
-        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Re-considervar"):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Re-considervar") : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
             key: "AIzaSyBiQxlUcO4iiV-Z9DuGzXZHGrS6Uprs1qs", // Sachiさんのキー
             v: "weekly",
         });
@@ -414,16 +432,16 @@
 
     <div id="photo-modal">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-    
+
         <button class="modal-prev" onclick="changeModalImg(-1)">&#10094;</button>
-    
+
         <img id="modal-img" src="" alt="拡大画像">
-    
+
         <button class="modal-next" onclick="changeModalImg(1)">&#10095;</button>
-    
+
         <div id="modal-caption"></div>
     </div>
-    
+
 </body>
 
 </html>
